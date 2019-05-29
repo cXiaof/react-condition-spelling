@@ -1,0 +1,32 @@
+{
+  "name": "react-condition-spelling",
+  "version": "0.1.0",
+  "description": "One React Component for spelling field comparison, through one or more sets of input boxes, into the condition.",
+  "main": "src/index.js",
+  "repository": "git@github.com:cXiaof/react-condition-spelling.git",
+  "author": "cXiaof <310257509@qq.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@storybook/addon-actions": "^5.0.11",
+    "@storybook/addon-links": "^5.0.11",
+    "@storybook/addons": "^5.0.11",
+    "@storybook/react": "^5.0.11",
+    "babel-loader": "^8.0.6",
+    "prettier": "^1.17.1",
+    "prettier-config-without-tab-width": "^1.0.2"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "s": "npm run format & npm run storybook",
+    "format": "prettier --loglevel silent --write {src,stories}/**/*.js",
+    "f": "npm run format"
+  },
+  "prettier": "prettier-config-without-tab-width"
+}
