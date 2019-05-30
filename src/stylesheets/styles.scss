@@ -1,0 +1,20 @@
+.react-condition-spelling {
+    .rcs-box {
+        > * {
+            box-sizing: border-box;
+            height: calc(1.2rem + 4px);
+            padding: 0 0.5rem;
+        }
+        .rcs-box-door,
+        .rcs-box-parenthese {
+            width: 10%;
+        }
+        .rcs-box-field,
+        .rcs-box-symbol {
+            width: 20%;
+        }
+        .rcs-box-value {
+            width: 30%;
+        }
+    }
+}

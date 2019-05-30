@@ -1,9 +1,5 @@
-import React, { Component } from 'react'
+import './stylesheets/styles.css'
 
-class ConditionSpelling extends Component {
-    render() {
-        return <div>ConditionSpelling</div>
-    }
-}
+import ConditionSpelling from './ConditionSpelling'
 
 export default ConditionSpelling
