@@ -1,26 +1,47 @@
 import React, { Component } from 'react'
 
-import localeText from './constants/localeText'
+import config from './constants/configDefault'
 
 import ConditionSpellingBox from './ConditionSpelling.box'
 
 class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
-        const propLocaleText = props.localeText || {}
-        const propFields = props.fields || []
         this.state = {
-            localeText: {
-                symbols: { ...localeText.symbols, ...propLocaleText.symbols },
-                doors: { ...localeText.doors, ...propLocaleText.doors }
+            config: {
+                symbols: props.symbols || config.symbols,
+                doors: props.doors || config.doors,
+                tip: props.tip !== undefined ? props.tip : config.tip
             },
-            fields: propFields
+            fields: props.fields || {},
+            value: []
         }
     }
 
+    handleBoxChange(i, e) {}
+
     getConditionSpellingBoxes() {
-        const { localeText, fields } = this.state
-        return <ConditionSpellingBox fields={fields} {...localeText} />
+        const { config, fields, value } = this.state
+        return value.reduce(
+            (target, item, i) => [
+                ...target,
+                <ConditionSpellingBox
+                    key={`box${i}`}
+                    fields={fields}
+                    onChange={this.handleBoxChange.bind(this, i)}
+                    {...config}
+                />
+            ],
+            [
+                <ConditionSpellingBox
+                    key='firstBox'
+                    first
+                    fields={fields}
+                    onChange={this.handleBoxChange.bind(this, 0)}
+                    {...config}
+                />
+            ]
+        )
     }
 
     render() {

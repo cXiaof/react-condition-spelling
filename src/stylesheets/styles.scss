@@ -4,6 +4,7 @@
             box-sizing: border-box;
             height: calc(1.2rem + 4px);
             padding: 0 0.5rem;
+            vertical-align: middle;
         }
         .rcs-box-door,
         .rcs-box-parenthese {
@@ -15,6 +16,12 @@
         }
         .rcs-box-value {
             width: 30%;
+        }
+        div {
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0;
         }
     }
 }
