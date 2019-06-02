@@ -8,35 +8,40 @@ import { Object } from 'es6-shim'
 class ConditionSpellingBox extends Component {
     constructor(props) {
         super(props)
-        let initState = { type: 'text' }
         const { fields, symbols, doors, first } = props
-        const keysFields = Object.keys(fields)
-        const keysSymbols = Object.keys(symbols)
-        const keysDoors = Object.keys(doors)
-        if (keysFields.length > 0) initState.field = keysFields[0]
-        if (keysSymbols.length > 0) initState.symbol = keysSymbols[0]
-        if (!first && keysDoors.length > 0) initState.door = keysDoors[0]
+        const [field, { type }] = Object.entries(fields)[0]
+        const symbol = Object.keys(symbols[type])[0]
+        let initState = { field, type, symbol }
+        if (!first) initState.door = Object.keys(doors)[0]
         this.state = initState
     }
 
     componentDidUpdate() {
-        const { field } = this.state
+        const { onChange, doors } = this.props
+        const { field, door } = this.state
         const symbolValue = this.getConditionSymbolValue()
         if (symbolValue) {
             const { symbol, value } = symbolValue
-            console.log(`${field} ${symbol}${value || ''}`)
+            let condition = ` ${field} ${symbol}${value || ''}`
+            if (door) condition = ` ${doors[door]}${condition}`
+            if (condition !== this.lastCondition) {
+                this.lastCondition = condition
+                onChange(condition)
+            }
         }
     }
 
     getConditionSymbolValue() {
         const { symbol, value, type } = this.state
         const { symbols } = this.props
-        const { preprocess } = symbols[symbol]
         if (value === undefined) return
+        const target = symbols[type][symbol]
+        if (!target) return
+        const { preprocess } = target
         let result = preprocess ? preprocess(value) : value
-        if (result === null) return { symbol: symbols[symbol].symbol }
+        if (result === null) return { symbol: target.symbol }
         result = type === 'text' ? ` '${result}'` : ` ${result}`
-        return { value: result, symbol: symbols[symbol].symbol }
+        return { value: result, symbol: target.symbol }
     }
 
     setStateWithEvent(key, e) {
@@ -90,9 +95,11 @@ class ConditionSpellingBox extends Component {
 
     getRcsBoxSymbol() {
         const { symbols } = this.props
+        const { type } = this.state
         return (
             <ConditionSpellingBoxSymbol
                 className='rcs-box-symbol'
+                type={type}
                 symbols={symbols}
                 onChange={this.setStateWithEvent.bind(this, 'symbol')}
             />
