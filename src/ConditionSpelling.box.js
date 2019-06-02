@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import ConditionSpellingBoxField from './ConditionSpelling.box.field'
 import ConditionSpellingBoxDoor from './ConditionSpelling.box.door'
 import ConditionSpellingBoxSymbol from './ConditionSpelling.box.symbol'
+import ConditionSpellingBoxParenthese from './ConditionSpelling.box.parenthese'
 import { Object } from 'es6-shim'
 
 class ConditionSpellingBox extends Component {
@@ -18,7 +19,7 @@ class ConditionSpellingBox extends Component {
 
     componentDidUpdate() {
         const { onChange, doors } = this.props
-        const { field, door } = this.state
+        const { field, door, left, right } = this.state
         const symbolValue = this.getConditionSymbolValue()
         if (symbolValue) {
             const { symbol, value } = symbolValue
@@ -65,7 +66,8 @@ class ConditionSpellingBox extends Component {
 
     getRcsBoxParentheseLeft() {
         return (
-            <input
+            <ConditionSpellingBoxParenthese
+                left
                 className='rcs-box-parenthese rcs-box-left'
                 onChange={this.setStateWithEvent.bind(this, 'left')}
             />
@@ -119,7 +121,8 @@ class ConditionSpellingBox extends Component {
 
     getRcsBoxParentheseRight() {
         return (
-            <input
+            <ConditionSpellingBoxParenthese
+                right
                 className='rcs-box-parenthese rcs-box-right'
                 onChange={this.setStateWithEvent.bind(this, 'right')}
             />
