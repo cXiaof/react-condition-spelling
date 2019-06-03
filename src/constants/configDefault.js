@@ -1,6 +1,8 @@
 export default {
     symbols: {
         text: {
+            '=': { symbol: '=' },
+            '≠': { symbol: '<>' },
             like: { symbol: 'LIKE', preprocess: (value) => `%${value}%` },
             'is null': { symbol: 'IS NULL', preprocess: () => null },
             'is not null': { symbol: 'IS NOT NULL', preprocess: () => null },
