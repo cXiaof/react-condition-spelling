@@ -3,14 +3,20 @@ export default {
         text: {
             '=': { symbol: '=' },
             '≠': { symbol: '<>' },
-            like: { symbol: 'LIKE', preprocess: (value) => `%${value}%` },
-            'is null': { symbol: 'IS NULL', preprocess: () => null },
-            'is not null': { symbol: 'IS NOT NULL', preprocess: () => null },
+            like: {
+                symbol: 'LIKE',
+                preprocess: (value) => `%${value}%`
+            },
             'start with': {
                 symbol: 'LIKE',
                 preprocess: (value) => `${value}%`
             },
-            'end with': { symbol: 'LIKE', preprocess: (value) => `%${value}` }
+            'end with': {
+                symbol: 'LIKE',
+                preprocess: (value) => `%${value}`
+            },
+            'is null': { symbol: 'IS NULL', noNeedValue: true },
+            'is not null': { symbol: 'IS NOT NULL', noNeedValue: true }
         },
         number: {
             '=': { symbol: '=' },

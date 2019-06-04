@@ -23,8 +23,8 @@ class ConditionSpelling extends Component {
 
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
-        const { result } = this.state
-        if (result !== preState.result) onChange(result)
+        const { result, value } = this.state
+        if (result !== preState.result) onChange(result, value)
     }
 
     getOneItemWithUid() {
@@ -33,14 +33,19 @@ class ConditionSpelling extends Component {
 
     getResult(value) {
         return value.reduce(
-            (target, { condition }) => `${target}${condition}`,
+            (target, { condition }) => `${target}${condition || ''}`,
             ''
         )
     }
 
-    handleBoxChange(i, condition) {
+    handleBoxChange(i, condition, data) {
         let value = [...this.state.value]
-        value[i] = { ...value[i], condition }
+        value[i] = {
+            ...value[i],
+            condition,
+            data,
+            illegal: condition === undefined
+        }
         const result = this.getResult(value)
         this.setState({
             ...this.state,
@@ -75,6 +80,7 @@ class ConditionSpelling extends Component {
         return value.map(({ id }, index) => (
             <ConditionSpellingBox
                 key={id}
+                id={id}
                 first={index === 0}
                 fields={fields}
                 onChange={this.handleBoxChange.bind(this, index)}

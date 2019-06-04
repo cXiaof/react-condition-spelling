@@ -23,7 +23,9 @@ storiesOf('ConditionSpelling', module)
             <Fragment>
                 <ConditionSpelling
                     fields={fields}
-                    onChange={(condition) => console.log(condition)}
+                    onChange={(condition, inputs) =>
+                        console.log(condition, inputs)
+                    }
                 />
                 <br />
                 <h4>{'props <fields> :'}</h4>

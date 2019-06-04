@@ -11,8 +11,8 @@ class ConditionSpellingBox extends Component {
         super(props)
         const { fields, symbols, doors, first } = props
         const [field, { type }] = Object.entries(fields)[0]
-        const symbol = Object.keys(symbols[type])[0]
-        let initState = { field, type, symbol }
+        const [symbol, { noNeedValue }] = Object.entries(symbols[type])[0]
+        let initState = { field, type, symbol, noNeedValue }
         if (!first) initState.door = Object.keys(doors)[0]
         this.state = initState
     }
@@ -21,29 +21,30 @@ class ConditionSpellingBox extends Component {
         const { onChange, doors } = this.props
         let { field, door, left, right } = this.state
         const symbolValue = this.getConditionSymbolValue()
+        let condition
         if (symbolValue) {
             let { symbol, value } = symbolValue
             value = value || ''
             left = left || ''
             right = right || ''
-            let condition = ` ${left}${field} ${symbol}${value}${right}`
+            condition = ` ${left}${field} ${symbol}${value}${right}`
             if (door) condition = ` ${doors[door]}${condition}`
-            if (condition !== this.lastCondition) {
-                this.lastCondition = condition
-                onChange(condition)
-            }
+        }
+        if (this.lastCondition !== condition) {
+            this.lastCondition = condition
+            onChange(condition, { ...this.state })
         }
     }
 
     getConditionSymbolValue() {
         const { symbol, value, type } = this.state
         const { symbols } = this.props
-        if (value === undefined) return
         const target = symbols[type][symbol]
         if (!target) return
-        const { preprocess } = target
+        const { preprocess, noNeedValue } = target
+        if (noNeedValue) return { symbol: target.symbol }
         let result = preprocess ? preprocess(value) : value
-        if (result === null) return { symbol: target.symbol }
+        if (value === undefined) return
         result = type === 'text' ? ` '${result}'` : ` ${result}`
         return { value: result, symbol: target.symbol }
     }
@@ -90,12 +91,19 @@ class ConditionSpellingBox extends Component {
 
     handleChangeField(e) {
         const { fields } = this.props
+        let { value } = this.state
         const field = e.target.value
-        this.setState({
+        const nextType = fields[field].type || 'text'
+        let nextState = {
             ...this.state,
             field,
-            type: fields[field].type || 'text'
-        })
+            type: nextType
+        }
+        if (nextType === 'number') {
+            const parse = parseFloat(value).toString()
+            if (value !== parse) nextState.value = undefined
+        }
+        this.setState(nextState)
     }
 
     getRcsBoxSymbol() {
@@ -106,16 +114,29 @@ class ConditionSpellingBox extends Component {
                 className='rcs-box-symbol'
                 type={type}
                 symbols={symbols}
-                onChange={this.setStateWithEvent.bind(this, 'symbol')}
+                onChange={this.handleChangeSymbol.bind(this)}
             />
         )
     }
 
-    getRcsBoxValue() {
+    handleChangeSymbol(e) {
+        const { symbols } = this.props
         const { type } = this.state
+        const symbol = e.target.value
+        const { noNeedValue } = symbols[type][symbol]
+        this.setState({
+            ...this.state,
+            symbol,
+            noNeedValue
+        })
+    }
+
+    getRcsBoxValue() {
+        const { type, noNeedValue } = this.state
         return (
             <input
                 className='rcs-box-value'
+                disabled={noNeedValue}
                 type={type}
                 onChange={this.setStateWithEvent.bind(this, 'value')}
             />
@@ -143,8 +164,9 @@ class ConditionSpellingBox extends Component {
     }
 
     render() {
+        const { id } = this.props
         return (
-            <div className='rcs-box'>
+            <div id={id} className='rcs-box'>
                 {this.getRcsBoxDoor()}
                 {this.getRcsBoxParentheseLeft()}
                 {this.getRcsBoxField()}
