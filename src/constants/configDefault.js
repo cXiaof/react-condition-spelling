@@ -28,6 +28,10 @@ export default {
         }
     },
     doors: { and: 'AND', or: 'OR' },
-    tip: 'condition: ',
-    error: 'No fields!'
+
+    title: 'condition: ',
+    error: 'No fields!',
+    placeholderLeft: '" ( " only',
+    placeholderRight: '" ) " only',
+    placeholderInput: 'input here'
 }

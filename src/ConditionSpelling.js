@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import uuid from 'uuid'
 
-import config from './constants/configDefault'
+import configDefault from './constants/configDefault'
 
 import ConditionSpellingBox from './ConditionSpelling.box'
 
@@ -9,15 +9,33 @@ class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            config: {
-                symbols: props.symbols || config.symbols,
-                doors: props.doors || config.doors,
-                tip: props.tip !== undefined ? props.tip : config.tip,
-                error: props.error !== undefined ? props.error : config.error
-            },
+            config: this.getConfig(props),
             fields: props.fields || {},
             value: [this.getOneItemWithUid()],
             result: ' 1 = 1'
+        }
+    }
+
+    getConfig(props) {
+        return {
+            symbols: props.symbols || configDefault.symbols,
+            doors: props.doors || configDefault.doors,
+            title:
+                props.title !== undefined ? props.title : configDefault.title,
+            error:
+                props.error !== undefined ? props.error : configDefault.error,
+            placeholderLeft:
+                props.placeholderLeft !== undefined
+                    ? props.placeholderLeft
+                    : configDefault.placeholderLeft,
+            placeholderRight:
+                props.placeholderRight !== undefined
+                    ? props.placeholderRight
+                    : configDefault.placeholderRight,
+            placeholderInput:
+                props.placeholderInput !== undefined
+                    ? props.placeholderInput
+                    : configDefault.placeholderInput
         }
     }
 

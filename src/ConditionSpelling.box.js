@@ -57,11 +57,11 @@ class ConditionSpellingBox extends Component {
     }
 
     getRcsBoxDoor() {
-        const { first, doors, tip } = this.props
+        const { first, doors, title } = this.props
         return (
             <ConditionSpellingBoxDoor
                 className='rcs-box-door'
-                tip={first ? tip : null}
+                title={first ? title : null}
                 doors={doors}
                 onChange={this.setStateWithEvent.bind(this, 'door')}
             />
@@ -69,9 +69,11 @@ class ConditionSpellingBox extends Component {
     }
 
     getRcsBoxParentheseLeft() {
+        const { placeholderLeft } = this.props
         return (
             <ConditionSpellingBoxParenthese
                 left
+                placeholder={placeholderLeft}
                 className='rcs-box-parenthese rcs-box-left'
                 onChange={this.setStateWithEvent.bind(this, 'left')}
             />
@@ -133,20 +135,24 @@ class ConditionSpellingBox extends Component {
 
     getRcsBoxValue() {
         const { type, noNeedValue } = this.state
+        const { placeholderInput } = this.props
         return (
             <input
                 className='rcs-box-value'
                 disabled={noNeedValue}
                 type={type}
+                placeholder={placeholderInput}
                 onChange={this.setStateWithEvent.bind(this, 'value')}
             />
         )
     }
 
     getRcsBoxParentheseRight() {
+        const { placeholderRight } = this.props
         return (
             <ConditionSpellingBoxParenthese
                 right
+                placeholder={placeholderRight}
                 className='rcs-box-parenthese rcs-box-right'
                 onChange={this.setStateWithEvent.bind(this, 'right')}
             />

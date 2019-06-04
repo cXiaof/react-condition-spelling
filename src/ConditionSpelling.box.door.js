@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 const ConditionSpellingBoxDoor = (props) => {
-    const { className, tip, doors, onChange } = props
-    if (tip) return <div className={className}>{tip}</div>
+    const { className, title, doors, onChange } = props
+    if (title) return <div className={className}>{title}</div>
     return (
         <select className={className} onChange={onChange}>
             {Object.entries(doors).map(([key]) => (

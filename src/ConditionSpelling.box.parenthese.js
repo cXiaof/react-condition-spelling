@@ -9,29 +9,33 @@ class ConditionSpellingBoxParenthese extends Component {
     }
 
     handleChange(e) {
-        const { onChange, left, right } = this.props
+        const { left, right } = this.props
+        if (e.target.value === '') this.updateValueFireChange('')
         let match = []
         let matchLeft = e.target.value.match(/\(/g)
         let matchRight = e.target.value.match(/\)/g)
         if (left && matchLeft) match = [...match, ...matchLeft]
         if (right && matchRight) match = [...match, ...matchRight]
-        if (match.length > 0) {
-            const value = match.join('')
-            this.setState({
-                ...this.state,
-                value
-            })
-            onChange({ target: { value } })
-        }
+        if (match.length > 0) this.updateValueFireChange(match.join(''))
+    }
+
+    updateValueFireChange(value) {
+        const { onChange } = this.props
+        this.setState({
+            ...this.state,
+            value
+        })
+        onChange({ target: { value } })
     }
 
     render() {
-        const { className } = this.props
+        const { className, placeholder } = this.props
         const { value } = this.state
         return (
             <input
                 value={value}
                 className={className}
+                placeholder={placeholder}
                 onChange={this.handleChange.bind(this)}
             />
         )
