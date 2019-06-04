@@ -1,3 +1,5 @@
+@import './iconfont/iconfont.css';
+
 .react-condition-spelling {
     .rcs-box {
         > * {
@@ -15,13 +17,25 @@
             width: 20%;
         }
         .rcs-box-value {
-            width: 30%;
+            width: 25%;
+        }
+        .rcs-box-buttons {
+            width: 5%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: space-around;
+            i {
+                font-size: 1rem;
+                margin: 0 2px;
+            }
         }
         div {
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding: 0;
+            &.rcs-box-door {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 0;
+            }
         }
     }
 }

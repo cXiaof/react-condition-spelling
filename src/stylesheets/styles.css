@@ -1,3 +1,4 @@
+@import url(c:\Users\DELL\Documents\www\react-condition-spelling\src\stylesheets\iconfont\iconfont.css);
 .react-condition-spelling .rcs-box > * {
   box-sizing: border-box;
   height: calc(1.2rem + 4px);
@@ -16,10 +17,22 @@
 }
 
 .react-condition-spelling .rcs-box .rcs-box-value {
-  width: 30%;
+  width: 25%;
 }
 
-.react-condition-spelling .rcs-box div {
+.react-condition-spelling .rcs-box .rcs-box-buttons {
+  width: 5%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.react-condition-spelling .rcs-box .rcs-box-buttons i {
+  font-size: 1rem;
+  margin: 0 2px;
+}
+
+.react-condition-spelling .rcs-box div.rcs-box-door {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;

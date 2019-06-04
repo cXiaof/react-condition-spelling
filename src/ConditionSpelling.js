@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import uuid from 'uuid'
 
 import config from './constants/configDefault'
 
@@ -15,44 +16,61 @@ class ConditionSpelling extends Component {
                 error: props.error !== undefined ? props.error : config.error
             },
             fields: props.fields || {},
-            value: []
+            value: [this.getOneItemWithUid()]
         }
+    }
+
+    getOneItemWithUid() {
+        return { id: uuid.v1().toString() }
     }
 
     handleBoxChange(i, condition) {
         const { onChange } = this.props
         let value = [...this.state.value]
-        value[i] = condition
+        value[i] = { ...value[i], condition }
         this.setState({
             ...this.state,
             value
         })
-        onChange(value.join(''))
+        const result = value.reduce(
+            (target, item) => target + item.condition,
+            ''
+        )
+        onChange(result)
+    }
+
+    handleInsert(index) {
+        let value = [...this.state.value]
+        value.splice(index + 1, 0, this.getOneItemWithUid())
+        this.setState({
+            ...this.state,
+            value
+        })
+    }
+
+    handleDelete(index) {
+        let value = [...this.state.value]
+        value.splice(index, 1)
+        if (value.length === 0) value = [this.getOneItemWithUid()]
+        this.setState({
+            ...this.state,
+            value
+        })
     }
 
     getConditionSpellingBoxes() {
         const { config, fields, value } = this.state
-        const first = (
+        return value.map(({ id }, index) => (
             <ConditionSpellingBox
-                key='firstBox'
-                first
+                key={id}
+                first={index === 0}
                 fields={fields}
-                onChange={this.handleBoxChange.bind(this, 0)}
+                onChange={this.handleBoxChange.bind(this, index)}
+                onAdd={this.handleInsert.bind(this, index)}
+                onDelete={this.handleDelete.bind(this, index)}
                 {...config}
             />
-        )
-        return value.reduce(
-            (target, item, i) => [
-                ...target,
-                <ConditionSpellingBox
-                    key={`box${i}`}
-                    fields={fields}
-                    onChange={this.handleBoxChange.bind(this, i + 1)}
-                    {...config}
-                />
-            ],
-            [first]
-        )
+        ))
     }
 
     getRcsBody() {

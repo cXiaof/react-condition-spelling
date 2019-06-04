@@ -19,11 +19,14 @@ class ConditionSpellingBox extends Component {
 
     componentDidUpdate() {
         const { onChange, doors } = this.props
-        const { field, door, left, right } = this.state
+        let { field, door, left, right } = this.state
         const symbolValue = this.getConditionSymbolValue()
         if (symbolValue) {
-            const { symbol, value } = symbolValue
-            let condition = ` ${field} ${symbol}${value || ''}`
+            let { symbol, value } = symbolValue
+            value = value || ''
+            left = left || ''
+            right = right || ''
+            let condition = ` ${left}${field} ${symbol}${value}${right}`
             if (door) condition = ` ${doors[door]}${condition}`
             if (condition !== this.lastCondition) {
                 this.lastCondition = condition
@@ -129,6 +132,16 @@ class ConditionSpellingBox extends Component {
         )
     }
 
+    getRcsBoxButtons() {
+        const { onAdd, onDelete } = this.props
+        return (
+            <div className='rcs-box-buttons'>
+                <i className='iconfont icon-delete' onClick={onDelete} />
+                <i className='iconfont icon-insert' onClick={onAdd} />
+            </div>
+        )
+    }
+
     render() {
         return (
             <div className='rcs-box'>
@@ -138,6 +151,7 @@ class ConditionSpellingBox extends Component {
                 {this.getRcsBoxSymbol()}
                 {this.getRcsBoxValue()}
                 {this.getRcsBoxParentheseRight()}
+                {this.getRcsBoxButtons()}
             </div>
         )
     }
