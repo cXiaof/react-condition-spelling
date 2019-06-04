@@ -16,27 +16,37 @@ class ConditionSpelling extends Component {
                 error: props.error !== undefined ? props.error : config.error
             },
             fields: props.fields || {},
-            value: [this.getOneItemWithUid()]
+            value: [this.getOneItemWithUid()],
+            result: ' 1 = 1'
         }
+    }
+
+    componentDidUpdate(preProps, preState) {
+        const { onChange } = this.props
+        const { result } = this.state
+        if (result !== preState.result) onChange(result)
     }
 
     getOneItemWithUid() {
         return { id: uuid.v1().toString() }
     }
 
-    handleBoxChange(i, condition) {
-        const { onChange } = this.props
-        let value = [...this.state.value]
-        value[i] = { ...value[i], condition }
-        this.setState({
-            ...this.state,
-            value
-        })
-        const result = value.reduce(
-            (target, item) => target + item.condition,
+    getResult(value) {
+        return value.reduce(
+            (target, { condition }) => `${target}${condition}`,
             ''
         )
-        onChange(result)
+    }
+
+    handleBoxChange(i, condition) {
+        let value = [...this.state.value]
+        value[i] = { ...value[i], condition }
+        const result = this.getResult(value)
+        this.setState({
+            ...this.state,
+            value,
+            result
+        })
     }
 
     handleInsert(index) {
@@ -52,13 +62,15 @@ class ConditionSpelling extends Component {
         let value = [...this.state.value]
         value.splice(index, 1)
         if (value.length === 0) value = [this.getOneItemWithUid()]
+        const result = this.getResult(value)
         this.setState({
             ...this.state,
-            value
+            value,
+            result
         })
     }
 
-    getConditionSpellingBoxes() {
+    getRcsBoxes() {
         const { config, fields, value } = this.state
         return value.map(({ id }, index) => (
             <ConditionSpellingBox
@@ -76,7 +88,7 @@ class ConditionSpelling extends Component {
     getRcsBody() {
         const { fields, config } = this.state
         if (Object.keys(fields).length === 0) return config.error
-        return this.getConditionSpellingBoxes()
+        return this.getRcsBoxes()
     }
 
     render() {
