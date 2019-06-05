@@ -9,32 +9,32 @@ class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            config: this.getConfig(props),
+            config: this.getConfig(props.config || {}),
             fields: props.fields || {},
             value: [this.getOneItemWithUid()],
             result: ' 1 = 1'
         }
     }
 
-    getConfig(props) {
+    getConfig(config) {
         return {
-            symbols: props.symbols || configDefault.symbols,
-            doors: props.doors || configDefault.doors,
+            symbols: config.symbols || configDefault.symbols,
+            doors: config.doors || configDefault.doors,
             title:
-                props.title !== undefined ? props.title : configDefault.title,
+                config.title !== undefined ? config.title : configDefault.title,
             error:
-                props.error !== undefined ? props.error : configDefault.error,
+                config.error !== undefined ? config.error : configDefault.error,
             placeholderLeft:
-                props.placeholderLeft !== undefined
-                    ? props.placeholderLeft
+                config.placeholderLeft !== undefined
+                    ? config.placeholderLeft
                     : configDefault.placeholderLeft,
             placeholderRight:
-                props.placeholderRight !== undefined
-                    ? props.placeholderRight
+                config.placeholderRight !== undefined
+                    ? config.placeholderRight
                     : configDefault.placeholderRight,
             placeholderInput:
-                props.placeholderInput !== undefined
-                    ? props.placeholderInput
+                config.placeholderInput !== undefined
+                    ? config.placeholderInput
                     : configDefault.placeholderInput
         }
     }
