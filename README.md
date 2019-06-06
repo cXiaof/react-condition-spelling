@@ -1,37 +1,30 @@
-## Welcome to GitHub Pages
+# react-condition-spelling
+One React Component for spelling field comparison, through one or more sets of input boxes, into the condition.
 
-You can use the [editor on GitHub](https://github.com/cXiaof/react-condition-spelling/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+## Examples
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### [DEMO](https://cxiaof.github.io/react-condition-spelling/storybook-static/index.html)
 
-### Markdown
+## Getting Started
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+-   **install dependencies**
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+yarn install
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+-   **serve with hot reload at localhost:6006**
 
-### Jekyll Themes
+```
+yarn storybook
+||
+yarn s
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/cXiaof/react-condition-spelling/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+-   **build for storybook with minification**
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+```
+yarn build-storybook
+||
+yarn b
+```

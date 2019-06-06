@@ -8,11 +8,12 @@ import ConditionSpellingBox from './ConditionSpelling.box'
 class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
+        this.alwaysTrue = ' 1 = 1'
         this.state = {
             config: this.getConfig(props.config || {}),
             fields: props.fields || {},
             value: [this.getOneItemWithUid()],
-            result: ' 1 = 1'
+            result: this.alwaysTrue
         }
     }
 
@@ -42,7 +43,8 @@ class ConditionSpelling extends Component {
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
         const { result, value } = this.state
-        if (result !== preState.result) onChange(result, value)
+        if (result !== preState.result)
+            onChange(result || this.alwaysTrue, value)
     }
 
     getOneItemWithUid() {

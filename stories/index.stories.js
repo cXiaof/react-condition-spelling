@@ -18,6 +18,28 @@ const mockConfig = {
         number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
     }
 }
+const mockConfigChZn = {
+    symbols: {
+        text: {
+            等于: { symbol: '=' },
+            不等于: { symbol: '<>' },
+            包含: {
+                symbol: 'LIKE',
+                preprocess: (value) => `%${value}%`
+            },
+            开始于: {
+                symbol: 'LIKE',
+                preprocess: (value) => `${value}%`
+            },
+            结束于: {
+                symbol: 'LIKE',
+                preprocess: (value) => `%${value}`
+            },
+            为null: { symbol: 'IS NULL', noNeedValue: true }
+        },
+        number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
+    }
+}
 
 storiesOf('function', module)
     .add('Normal: has fields', () => {
@@ -45,7 +67,7 @@ storiesOf('function', module)
             </Fragment>
         )
     })
-    .add('custom config', () => {
+    .add('Custom config', () => {
         return (
             <Fragment>
                 <ConditionSpelling
@@ -62,6 +84,26 @@ storiesOf('function', module)
                 <br />
                 <strong>{'mock config :'}</strong>
                 <div>{getJSONstr(mockConfig)}</div>
+            </Fragment>
+        )
+    })
+    .add('Locale language', () => {
+        return (
+            <Fragment>
+                <ConditionSpelling
+                    fields={mockFields}
+                    config={mockConfigChZn}
+                    onChange={(condition, inputs) => {
+                        console.log(condition)
+                        console.log(inputs)
+                    }}
+                />
+                <br />
+                <strong>{'mock fields :'}</strong>
+                <div>{getJSONstr(mockFields)}</div>
+                <br />
+                <strong>{'mock config :'}</strong>
+                <div>{getJSONstr(mockConfigChZn)}</div>
             </Fragment>
         )
     })

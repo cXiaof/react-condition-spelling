@@ -1,6 +1,6 @@
 {
   "name": "react-condition-spelling",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "One React Component for spelling field comparison, through one or more sets of input boxes, into the condition.",
   "main": "src/index.js",
   "repository": "git@github.com:cXiaof/react-condition-spelling.git",

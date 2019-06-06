@@ -13,7 +13,7 @@ class ConditionSpellingBoxSymbol extends Component {
         const { className, type, symbols, onChange } = this.props
         return (
             <select className={className} onChange={onChange}>
-                {Object.entries(symbols[type]).map(([key, value]) => (
+                {Object.entries(symbols[type]).map(([key]) => (
                     <option key={key} value={key}>
                         {key}
                     </option>
