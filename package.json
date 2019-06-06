@@ -8,25 +8,26 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
-    "@storybook/addon-actions": "^5.0.11",
+    "@storybook/addon-actions": "^5.1.1",
     "@storybook/addon-console": "^1.1.0",
-    "@storybook/addon-links": "^5.0.11",
-    "@storybook/addons": "^5.0.11",
-    "@storybook/react": "^5.0.11",
+    "@storybook/addon-links": "^5.1.1",
+    "@storybook/addons": "^5.1.1",
+    "@storybook/react": "^5.1.1",
     "babel-loader": "^8.0.6",
     "prettier": "^1.17.1",
-    "prettier-config-without-tab-width": "^1.0.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "prettier-config-without-tab-width": "^1.0.2"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "s": "npm run format & npm run storybook",
+    "build-storybook": "build-storybook",
+    "b": "npm run format & npm run build-storybook",
     "format": "prettier --loglevel silent --write {src,stories}/**/*.js",
     "f": "npm run format"
   },
