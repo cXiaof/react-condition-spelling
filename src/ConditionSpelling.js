@@ -9,13 +9,23 @@ class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
         this.alwaysTrue = ' 1 = 1'
-        this.state = {
-            max: Math.max(~~props.max, 0) || Infinity,
-            config: this.getConfig(props.config || {}),
-            fields: props.fields || {},
-            value: [this.getOneItemWithUid()],
-            result: this.alwaysTrue
+        const max = Math.max(~~props.max, 0) || Infinity
+        const showAll =
+            props.showAll && props.max !== undefined && max !== Infinity
+        const config = this.getConfig(props.config || {})
+        const fields = props.fields || {}
+        const result = this.alwaysTrue
+        const value = this.getInitValue(max, showAll)
+        this.state = { max, showAll, config, fields, result, value }
+    }
+
+    getInitValue(max, showAll) {
+        if (!showAll) return [this.getOneItemWithUid()]
+        let arr = []
+        for (let i = 0; i < max; i++) {
+            arr.push(this.getOneItemWithUid())
         }
+        return arr
     }
 
     getConfig(config) {
@@ -86,9 +96,14 @@ class ConditionSpelling extends Component {
     }
 
     handleDelete(index) {
+        let { max, showAll } = this.state
         let value = [...this.state.value]
         value.splice(index, 1)
         if (value.length === 0) value = [this.getOneItemWithUid()]
+        if (showAll)
+            for (let index = 0; index < max - value.length; index++) {
+                value.push(this.getOneItemWithUid())
+            }
         const result = this.getResult(value)
         this.setState({
             ...this.state,
@@ -98,12 +113,13 @@ class ConditionSpelling extends Component {
     }
 
     getRcsBoxes() {
-        const { config, fields, value } = this.state
+        const { showAll, max, config, fields, value } = this.state
         return value.map(({ id }, index) => (
             <ConditionSpellingBox
                 key={id}
                 id={id}
                 first={index === 0}
+                noInsert={showAll || max === value.length}
                 fields={fields}
                 onChange={this.handleBoxChange.bind(this, index)}
                 onAdd={this.handleInsert.bind(this, index)}

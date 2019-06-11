@@ -160,11 +160,13 @@ class ConditionSpellingBox extends Component {
     }
 
     getRcsBoxButtons() {
-        const { onAdd, onDelete } = this.props
+        const { onAdd, onDelete, noInsert } = this.props
         return (
             <div className='rcs-box-buttons'>
                 <i className='iconfont icon-delete' onClick={onDelete} />
-                <i className='iconfont icon-insert' onClick={onAdd} />
+                {noInsert ? null : (
+                    <i className='iconfont icon-insert' onClick={onAdd} />
+                )}
             </div>
         )
     }

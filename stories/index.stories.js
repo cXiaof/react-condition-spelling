@@ -18,6 +18,11 @@ const mockConfig = {
         number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
     }
 }
+const onChange = (condition, inputs) => {
+    console.log(condition)
+    console.log(inputs)
+}
+
 const mockConfigChZn = {
     symbols: {
         text: {
@@ -41,17 +46,11 @@ const mockConfigChZn = {
     }
 }
 
-storiesOf('function', module)
+storiesOf('react-condition-spelling', module)
     .add('Normal: has fields', () => {
         return (
             <Fragment>
-                <ConditionSpelling
-                    fields={mockFields}
-                    onChange={(condition, inputs) => {
-                        console.log(condition)
-                        console.log(inputs)
-                    }}
-                />
+                <ConditionSpelling fields={mockFields} onChange={onChange} />
                 <br />
                 <strong>{'mock fields :'}</strong>
                 <div>{getJSONstr(mockFields)}</div>
@@ -73,13 +72,26 @@ storiesOf('function', module)
                 <ConditionSpelling
                     max={3}
                     fields={mockFields}
-                    onChange={(condition, inputs) => {
-                        console.log(condition)
-                        console.log(inputs)
-                    }}
+                    onChange={onChange}
                 />
                 <br />
                 <strong>{`max = { 3 }`}</strong>
+            </Fragment>
+        )
+    })
+    .add('Show All', () => {
+        return (
+            <Fragment>
+                <ConditionSpelling
+                    max={3}
+                    showAll
+                    fields={mockFields}
+                    onChange={onChange}
+                />
+                <br />
+                <strong>{`showAll = { true }`}</strong>
+                <strong>{`work only if has prop: max ( custom length )`}</strong>
+                <div>{`max = { 3 }`}</div>
             </Fragment>
         )
     })
@@ -89,10 +101,7 @@ storiesOf('function', module)
                 <ConditionSpelling
                     fields={mockFields}
                     config={mockConfig}
-                    onChange={(condition, inputs) => {
-                        console.log(condition)
-                        console.log(inputs)
-                    }}
+                    onChange={onChange}
                 />
                 <br />
                 <strong>{'mock fields :'}</strong>
@@ -109,10 +118,7 @@ storiesOf('function', module)
                 <ConditionSpelling
                     fields={mockFields}
                     config={mockConfigChZn}
-                    onChange={(condition, inputs) => {
-                        console.log(condition)
-                        console.log(inputs)
-                    }}
+                    onChange={onChange}
                 />
                 <br />
                 <strong>{'mock fields :'}</strong>
