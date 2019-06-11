@@ -10,6 +10,7 @@ class ConditionSpelling extends Component {
         super(props)
         this.alwaysTrue = ' 1 = 1'
         this.state = {
+            max: Math.max(~~props.max, 0) || Infinity,
             config: this.getConfig(props.config || {}),
             fields: props.fields || {},
             value: [this.getOneItemWithUid()],
@@ -75,7 +76,8 @@ class ConditionSpelling extends Component {
     }
 
     handleInsert(index) {
-        let value = [...this.state.value]
+        let { value, max } = this.state
+        if (value.length === max) return
         value.splice(index + 1, 0, this.getOneItemWithUid())
         this.setState({
             ...this.state,

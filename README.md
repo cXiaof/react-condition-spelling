@@ -88,6 +88,10 @@ yarn b
                 placeholder for value input every line
                 每行值输入框的placeholder
 
+-   max **Number**
+    - how much lines be shown at most
+    定义最多可以出现几行
+
 -   onChange **Funtion**  
     - callback when spelling effective sql, get two attr `condition` and `inputs`
     每当拼写出有效的sql语句时的回调，接收两个参数`condition`和`inputs`

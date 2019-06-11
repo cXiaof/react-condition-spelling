@@ -67,6 +67,22 @@ storiesOf('function', module)
             </Fragment>
         )
     })
+    .add('Custom length', () => {
+        return (
+            <Fragment>
+                <ConditionSpelling
+                    max={3}
+                    fields={mockFields}
+                    onChange={(condition, inputs) => {
+                        console.log(condition)
+                        console.log(inputs)
+                    }}
+                />
+                <br />
+                <strong>{`max = { 3 }`}</strong>
+            </Fragment>
+        )
+    })
     .add('Custom config', () => {
         return (
             <Fragment>

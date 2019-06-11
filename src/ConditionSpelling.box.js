@@ -9,16 +9,16 @@ import { Object } from 'es6-shim'
 class ConditionSpellingBox extends Component {
     constructor(props) {
         super(props)
-        const { fields, symbols, doors, first } = props
+        const { fields, symbols, doors } = props
         const [field, { type }] = Object.entries(fields)[0]
         const [symbol, { noNeedValue }] = Object.entries(symbols[type])[0]
         let initState = { field, type, symbol, noNeedValue }
-        if (!first) initState.door = Object.keys(doors)[0]
+        initState.door = Object.keys(doors)[0]
         this.state = initState
     }
 
     componentDidUpdate() {
-        const { onChange, doors } = this.props
+        const { onChange, doors, first } = this.props
         let { field, door, left, right } = this.state
         const symbolValue = this.getConditionSymbolValue()
         let condition
@@ -28,7 +28,7 @@ class ConditionSpellingBox extends Component {
             left = left || ''
             right = right || ''
             condition = ` ${left}${field} ${symbol}${value}${right}`
-            if (door) condition = ` ${doors[door]}${condition}`
+            if (!first && door) condition = ` ${doors[door]}${condition}`
         }
         if (this.lastCondition !== condition) {
             this.lastCondition = condition
