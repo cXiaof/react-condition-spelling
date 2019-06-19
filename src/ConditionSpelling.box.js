@@ -4,7 +4,6 @@ import ConditionSpellingBoxField from './ConditionSpelling.box.field'
 import ConditionSpellingBoxDoor from './ConditionSpelling.box.door'
 import ConditionSpellingBoxSymbol from './ConditionSpelling.box.symbol'
 import ConditionSpellingBoxParenthese from './ConditionSpelling.box.parenthese'
-import { Object } from 'es6-shim'
 
 class ConditionSpellingBox extends Component {
     constructor(props) {

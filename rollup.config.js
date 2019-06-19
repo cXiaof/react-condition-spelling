@@ -1,6 +1,8 @@
 import babel from 'rollup-plugin-babel'
 import postcss from 'rollup-plugin-postcss'
+import autoprefixer from 'autoprefixer'
 import cssnano from 'cssnano'
+import { uglify } from 'rollup-plugin-uglify'
 
 export default {
     input: 'src/index.js',
@@ -9,10 +11,13 @@ export default {
         format: 'cjs'
     },
     plugins: [
-        babel({ exclude: 'node_modules/**' }),
+        babel({
+            exclude: 'node_modules/**'
+        }),
         postcss({
-            plugins: [cssnano()],
+            plugins: [autoprefixer, cssnano],
             extensions: ['.css']
-        })
+        }),
+        uglify()
     ]
 }

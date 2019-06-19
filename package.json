@@ -1,6 +1,6 @@
 {
   "name": "react-condition-spelling",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "One React Component for spelling field comparison, through one or more sets of input boxes, into the condition.",
   "main": "dist/index.js",
   "repository": "https://github.com/cXiaof/react-condition-spelling",
@@ -19,6 +19,7 @@
     "@storybook/addon-links": "^5.1.8",
     "@storybook/addons": "^5.1.8",
     "@storybook/react": "^5.1.8",
+    "autoprefixer": "^9.6.0",
     "babel-loader": "^8.0.6",
     "cssnano": "^4.1.10",
     "prettier": "^1.18.2",
@@ -27,7 +28,8 @@
     "react-dom": "^16.8.6",
     "rollup": "^1.15.6",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-postcss": "^2.0.3"
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-uglify": "^6.0.2"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
