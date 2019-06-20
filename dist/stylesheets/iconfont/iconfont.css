@@ -1,0 +1,29 @@
+@font-face {font-family: "iconfont";
+  src: url('iconfont.eot?t=1559544861676'); /* IE9 */
+  src: url('iconfont.eot?t=1559544861676#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAO8AAsAAAAACFAAAANwAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqEFINEATYCJAMQCwoABCAFhG0HPxstB8iOxDhGcaMsxEfw8J/Xex8yfUEBKAWUKTmo5FV+z18VXJHr8ZP9tAhCNTlVIllFqDZWxfeBrrl/Izm7xU/JXVwapzSr43UtFpAotk6tFA1ljsKhChSw0sp/J/sHekH+5XDjVXh0nYYAHApRAdGi1f4hkkFDJglAjB9jniKZlA5dUywwCCIlKzViIxZGrpIhETb4vy++MhQGJJaCnNXFX1wj4w8dvm5QQSpggAoIxjsPwAIUUAHQIEaX2oYRD2MVUDj63ySoBRgMEj50+LDr64ZUCkn3ojb0Xx5IBApEBFLoAVADxxV86GBzIeHDLi4EfN1QgAJ4IeMN4AJngPsYV6AsgkZ42T1CzuFlmV1g3m8ymnDmxmJB3B0IW4n81TF0+fGNMHdkEF+TFEriH0HqG6fkVglzjl7faIYbj+fEFdtvl3IO3gQypiWiuXv/5c+KxXKRZXVCiGjSzbomDkGsX5qWO2scaUBd+bSMa44FRx1POozVx3MpLz16ws2okieKjqVutx8nzBE61ffKjWH2NHvx2TzdU/OyFSP8qjVzcvaNYtn3y1Z19n6jPse+ROWqfSbMHpr9tvuZ9oB3TrjxwsbQVK1U1fPTL6T7hcpV4unZ6plrPJnd4t/8NZebL9onfauEbemgZ/qOmepxht5k30eaX9uHyp4gU9YCWTMFHjl/1ozKjCkxEqA9MzGZCJC6r06qogDqqrwpJe6qO6rJXx5Fcna310O5wX/jXmbTi3zvC/qe1F1NO03kV0laS/6ppGWNNmREr7Umt8WmX9ObnzZNAg4OkAJXNt6Ooc3ZuhAEhpwxSDJQEBSGEiiNqwAWLjUggqExOJSn9XqX7EwljtA2UI5lAIIsnAFJJu6AIgtpKI17Axa5+A4RsggFDr1E9h1dSokxTvOpOCmuNOyLxlw4MJhRc0HxHcw37yRJmc94goR2kKpWqpJNrhBAxpgz7d0cTleDfGGfWsF58DymycIOLtodrXobVa7sl31Tdzj7kRzNEcAJBVwhhvEFMYYLTIDhNlZyuZ+/A5i84XFCaqrqvE8AIcTunahKJaq0QK3UQauqa3nNNN4xGTIdxYDwERgfohVYgEdjDDG5fJgDuKB0Gd0jcmNEZYzkt1V359f6T7gLcCAPaiGFElpYREaM9KBIjZkYQjQ+dMQ1EgE=') format('woff2'),
+  url('iconfont.woff?t=1559544861676') format('woff'),
+  url('iconfont.ttf?t=1559544861676') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1559544861676#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before {
+  content: "\e69d";
+}
+
+.icon-insert:before {
+  content: "\e64c";
+}
+
+.icon-add:before {
+  content: "\eb8f";
+}
+
