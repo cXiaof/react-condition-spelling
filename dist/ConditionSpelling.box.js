@@ -256,10 +256,10 @@ function (_Component) {
       return _react["default"].createElement("div", {
         className: "rcs-box-buttons"
       }, _react["default"].createElement("i", {
-        className: "iconfont icon-delete",
+        className: "rcs_iconfont rcs-icon-delete",
         onClick: onDelete
       }), noInsert ? null : _react["default"].createElement("i", {
-        className: "iconfont icon-insert",
+        className: "rcs_iconfont rcs-icon-insert",
         onClick: onAdd
       }));
     }
