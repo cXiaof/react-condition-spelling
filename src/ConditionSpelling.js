@@ -54,7 +54,7 @@ class ConditionSpelling extends Component {
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
         const { result, value } = this.state
-        if (result !== preState.result)
+        if (onChange && result !== preState.result)
             onChange(result || this.alwaysTrue, value)
     }
 

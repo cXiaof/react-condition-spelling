@@ -114,7 +114,7 @@ function (_Component) {
       var _this$state = this.state,
           result = _this$state.result,
           value = _this$state.value;
-      if (result !== preState.result) onChange(result || this.alwaysTrue, value);
+      if (onChange && result !== preState.result) onChange(result || this.alwaysTrue, value);
     }
   }, {
     key: "getOneItemWithUid",

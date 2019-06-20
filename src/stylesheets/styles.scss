@@ -5,36 +5,45 @@
         > * {
             box-sizing: border-box;
             height: calc(1.2rem + 4px);
-            padding: 0 0.5rem;
+            padding: 0 0.4rem;
+            margin: 0 0.1rem;
             vertical-align: middle;
-        }
-        .rcs-box-door,
-        .rcs-box-parenthese {
-            width: 10%;
-        }
-        .rcs-box-field,
-        .rcs-box-symbol {
-            width: 20%;
-        }
-        .rcs-box-value {
-            width: 25%;
-        }
-        .rcs-box-buttons {
-            width: 5%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: space-around;
-            i {
-                font-size: 1rem;
-                margin: 0 2px;
+            @mixin calcWidth($w, $m: 0) {
+                width: calc(#{$w}% - 0.1rem * #{$m});
             }
-        }
-        div {
-            &.rcs-box-door {
+            &:nth-child(1) {
+                @include calcWidth(10, 1);
+                margin-left: 0;
                 display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 padding: 0;
+            }
+            &:nth-child(2) {
+                @include calcWidth(10, 2);
+            }
+            &:nth-child(3) {
+                @include calcWidth(20, 2);
+            }
+            &:nth-child(4) {
+                @include calcWidth(20, 2);
+            }
+            &:nth-child(5) {
+                @include calcWidth(25, 2);
+            }
+            &:nth-child(6) {
+                @include calcWidth(10, 2);
+            }
+            &:nth-child(7) {
+                @include calcWidth(5);
+                margin: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: space-around;
+                i {
+                    font-size: 1rem;
+                    margin: 0 2px;
+                }
             }
         }
     }
