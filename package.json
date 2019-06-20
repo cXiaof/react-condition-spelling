@@ -21,7 +21,7 @@
     "@storybook/react": "^5.1.8",
     "babel-loader": "^8.0.6",
     "gulp": "^4.0.2",
-    "gulp-cssmin": "^0.2.0",
+    "gulp-csso": "^3.0.1",
     "prettier": "^1.18.2",
     "prettier-config-without-tab-width": "^1.0.2",
     "react": "^16.8.6",
@@ -36,7 +36,7 @@
     "b": "npm run format & npm run build",
     "format": "prettier --loglevel silent --write {src,stories}/**/*.js",
     "f": "npm run format",
-    "prepublish": "npm run format & npm run build-storybook & npm run build",
+    "prepublishOnly": "npm run format & npm run build-storybook & npm run build",
     "p": "npm run format & npm run build-storybook & npm run build"
   },
   "prettier": "prettier-config-without-tab-width"

@@ -1,10 +1,10 @@
 const gulp = require('gulp')
-const cssmin = require('gulp-cssmin')
+const csso = require('gulp-csso')
 
 gulp.task('copy_css', () =>
     gulp
         .src('src/stylesheets/*.css')
-        .pipe(cssmin())
+        .pipe(csso())
         .pipe(gulp.dest('dist/stylesheets'))
 )
 
