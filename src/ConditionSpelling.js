@@ -37,7 +37,7 @@ class ConditionSpelling extends Component {
                     if (types.includes(dataType)) target.type = key
                     return target
                 },
-                { name, type: '*' }
+                { name, type: 'default' }
             )
             return result
         }, {})

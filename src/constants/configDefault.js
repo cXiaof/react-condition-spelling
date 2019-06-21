@@ -1,6 +1,6 @@
 export default {
     symbols: {
-        '*': {
+        default: {
             '=': { symbol: '=' },
             '≠': { symbol: '<>' }
         },
