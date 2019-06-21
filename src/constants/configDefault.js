@@ -1,5 +1,9 @@
 export default {
     symbols: {
+        '*': {
+            '=': { symbol: '=' },
+            '≠': { symbol: '<>' }
+        },
         text: {
             '=': { symbol: '=' },
             '≠': { symbol: '<>' },
@@ -26,6 +30,10 @@ export default {
             '>': { symbol: '>' },
             '>=': { symbol: '>=' }
         }
+    },
+    dataTypes: {
+        text: ['varchar', 'char', 'text', 'boolean'],
+        number: ['int2', 'int4', 'int8', 'numeric']
     },
     doors: { and: 'AND', or: 'OR' },
 

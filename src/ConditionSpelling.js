@@ -12,11 +12,11 @@ class ConditionSpelling extends Component {
         const max = Math.max(~~props.max, 0) || Infinity
         const showAll =
             props.showAll && props.max !== undefined && max !== Infinity
-        const config = this.getConfig(props.config || {})
-        const fields = props.fields || {}
-        const result = this.alwaysTrue
+        const config = this.getConfig(props.config)
+        const fields = this.getFiedls(props.fields, config.dataTypes)
         const value = this.getInitValue(max, showAll)
-        this.state = { max, showAll, config, fields, result, value }
+        const result = this.alwaysTrue
+        this.state = { max, showAll, config, fields, value, result }
     }
 
     getInitValue(max, showAll) {
@@ -28,9 +28,25 @@ class ConditionSpelling extends Component {
         return arr
     }
 
-    getConfig(config) {
+    getFiedls(fields, dataTypes = {}) {
+        if (!Array.isArray(fields) || fields.length === 0) return {}
+        return fields.reduce((result, field) => {
+            const { fieldName, dataType, name } = field
+            result[fieldName] = Object.entries(dataTypes).reduce(
+                (target, [key, types]) => {
+                    if (types.includes(dataType)) target.type = key
+                    return target
+                },
+                { name, type: '*' }
+            )
+            return result
+        }, {})
+    }
+
+    getConfig(config = {}) {
         return {
             symbols: config.symbols || configDefault.symbols,
+            dataTypes: config.dataTypes || configDefault.dataTypes,
             doors: config.doors || configDefault.doors,
             title:
                 config.title !== undefined ? config.title : configDefault.title,

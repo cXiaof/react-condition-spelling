@@ -3,57 +3,15 @@ import { storiesOf } from '@storybook/react'
 
 import ConditionSpelling from '../src/index'
 
-const mockFields = {
-    name: { name: 'name', type: 'text' },
-    from: { name: 'come from', type: 'text' },
-    age: { name: 'age', type: 'number' }
-}
-const mockConfig = {
-    symbols: {
-        text: {
-            '=': { symbol: '=' },
-            like: { symbol: 'LIKE', preprocess: (value) => `%${value}%` },
-            'is null': { symbol: 'IS NULL', noNeedValue: true }
-        },
-        number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
-    }
-}
-const onChange = (condition, inputs) => {
-    console.log(condition)
-    console.log(inputs)
-}
-
-const mockConfigChZn = {
-    symbols: {
-        text: {
-            等于: { symbol: '=' },
-            不等于: { symbol: '<>' },
-            包含: {
-                symbol: 'LIKE',
-                preprocess: (value) => `%${value}%`
-            },
-            开始于: {
-                symbol: 'LIKE',
-                preprocess: (value) => `${value}%`
-            },
-            结束于: {
-                symbol: 'LIKE',
-                preprocess: (value) => `%${value}`
-            },
-            为null: { symbol: 'IS NULL', noNeedValue: true }
-        },
-        number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
-    }
-}
+import { TipTitle, TipFormat } from './utils.component'
+import { fields, config, configChZn, onChange } from './utils.mockData'
 
 storiesOf('react-condition-spelling', module)
     .add('Normal: has fields', () => {
         return (
             <Fragment>
-                <ConditionSpelling fields={mockFields} onChange={onChange} />
-                <br />
-                <strong>{'mock fields :'}</strong>
-                <div>{getJSONstr(mockFields)}</div>
+                <ConditionSpelling fields={fields} onChange={onChange} />
+                <TipFormat title={'mock fields :'} data={fields}></TipFormat>
             </Fragment>
         )
     })
@@ -61,8 +19,7 @@ storiesOf('react-condition-spelling', module)
         return (
             <Fragment>
                 <ConditionSpelling />
-                <br />
-                <strong>{'no props'}</strong>
+                <TipTitle text={'no props'} />
             </Fragment>
         )
     })
@@ -71,11 +28,10 @@ storiesOf('react-condition-spelling', module)
             <Fragment>
                 <ConditionSpelling
                     max={3}
-                    fields={mockFields}
+                    fields={fields}
                     onChange={onChange}
                 />
-                <br />
-                <strong>{`max = { 3 }`}</strong>
+                <TipTitle text={'max = { 3 }'} />
             </Fragment>
         )
     })
@@ -85,13 +41,14 @@ storiesOf('react-condition-spelling', module)
                 <ConditionSpelling
                     max={3}
                     showAll
-                    fields={mockFields}
+                    fields={fields}
                     onChange={onChange}
                 />
-                <br />
-                <strong>{`showAll = { true }`}</strong>
-                <strong>{`work only if has prop: max ( custom length )`}</strong>
-                <div>{`max = { 3 }`}</div>
+                <TipTitle text={'showAll = { true }'} />
+                <TipTitle
+                    text={'work only if has prop: max ( custom length )'}
+                />
+                <div>max = {3}</div>
             </Fragment>
         )
     })
@@ -99,16 +56,12 @@ storiesOf('react-condition-spelling', module)
         return (
             <Fragment>
                 <ConditionSpelling
-                    fields={mockFields}
-                    config={mockConfig}
+                    config={config}
+                    fields={fields}
                     onChange={onChange}
                 />
-                <br />
-                <strong>{'mock fields :'}</strong>
-                <div>{getJSONstr(mockFields)}</div>
-                <br />
-                <strong>{'mock config :'}</strong>
-                <div>{getJSONstr(mockConfig)}</div>
+                <TipFormat title={'mock config :'} data={config}></TipFormat>
+                <TipFormat title={'mock fields :'} data={fields}></TipFormat>
             </Fragment>
         )
     })
@@ -116,26 +69,15 @@ storiesOf('react-condition-spelling', module)
         return (
             <Fragment>
                 <ConditionSpelling
-                    fields={mockFields}
-                    config={mockConfigChZn}
+                    config={configChZn}
+                    fields={fields}
                     onChange={onChange}
                 />
-                <br />
-                <strong>{'mock fields :'}</strong>
-                <div>{getJSONstr(mockFields)}</div>
-                <br />
-                <strong>{'mock config :'}</strong>
-                <div>{getJSONstr(mockConfigChZn)}</div>
+                <TipFormat
+                    title={'mock config :'}
+                    data={configChZn}
+                ></TipFormat>
+                <TipFormat title={'mock fields :'} data={fields}></TipFormat>
             </Fragment>
         )
     })
-
-const getJSONstr = (obj) => (
-    <Fragment>
-        {Object.entries(obj).map(([key, value]) => (
-            <div key={`${key}`}>
-                {key}: {JSON.stringify(value, null, 4)}
-            </div>
-        ))}
-    </Fragment>
-)
