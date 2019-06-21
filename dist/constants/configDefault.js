@@ -6,6 +6,14 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   symbols: {
+    "default": {
+      '=': {
+        symbol: '='
+      },
+      '≠': {
+        symbol: '<>'
+      }
+    },
     text: {
       '=': {
         symbol: '='
@@ -60,6 +68,10 @@ var _default = {
         symbol: '>='
       }
     }
+  },
+  dataTypes: {
+    text: ['varchar', 'char', 'text', 'boolean'],
+    number: ['int2', 'int4', 'int8', 'numeric']
   },
   doors: {
     and: 'AND',

@@ -33,6 +33,14 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -64,20 +72,20 @@ function (_Component) {
     var max = Math.max(~~props.max, 0) || Infinity;
     var showAll = props.showAll && props.max !== undefined && max !== Infinity;
 
-    var config = _this.getConfig(props.config || {});
+    var config = _this.getConfig(props.config);
 
-    var fields = props.fields || {};
-    var result = _this.alwaysTrue;
+    var fields = _this.getFiedls(props.fields, config.dataTypes);
 
     var value = _this.getInitValue(max, showAll);
 
+    var result = _this.alwaysTrue;
     _this.state = {
       max: max,
       showAll: showAll,
       config: config,
       fields: fields,
-      result: result,
-      value: value
+      value: value,
+      result: result
     };
     return _this;
   }
@@ -95,10 +103,35 @@ function (_Component) {
       return arr;
     }
   }, {
+    key: "getFiedls",
+    value: function getFiedls(fields) {
+      var dataTypes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      if (!Array.isArray(fields) || fields.length === 0) return {};
+      return fields.reduce(function (result, field) {
+        var fieldName = field.fieldName,
+            dataType = field.dataType,
+            name = field.name;
+        result[fieldName] = Object.entries(dataTypes).reduce(function (target, _ref) {
+          var _ref2 = _slicedToArray(_ref, 2),
+              key = _ref2[0],
+              types = _ref2[1];
+
+          if (types.includes(dataType)) target.type = key;
+          return target;
+        }, {
+          name: name,
+          type: 'default'
+        });
+        return result;
+      }, {});
+    }
+  }, {
     key: "getConfig",
-    value: function getConfig(config) {
+    value: function getConfig() {
+      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       return {
         symbols: config.symbols || _configDefault["default"].symbols,
+        dataTypes: config.dataTypes || _configDefault["default"].dataTypes,
         doors: config.doors || _configDefault["default"].doors,
         title: config.title !== undefined ? config.title : _configDefault["default"].title,
         error: config.error !== undefined ? config.error : _configDefault["default"].error,
@@ -126,8 +159,8 @@ function (_Component) {
   }, {
     key: "getResult",
     value: function getResult(value) {
-      return value.reduce(function (target, _ref) {
-        var condition = _ref.condition;
+      return value.reduce(function (target, _ref3) {
+        var condition = _ref3.condition;
         return "".concat(target).concat(condition || '');
       }, '');
     }
@@ -190,8 +223,8 @@ function (_Component) {
           config = _this$state4.config,
           fields = _this$state4.fields,
           value = _this$state4.value;
-      return value.map(function (_ref2, index) {
-        var id = _ref2.id;
+      return value.map(function (_ref4, index) {
+        var id = _ref4.id;
         return _react["default"].createElement(_ConditionSpelling["default"], _extends({
           key: id,
           id: id,
