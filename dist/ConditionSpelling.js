@@ -129,16 +129,26 @@ function (_Component) {
     key: "getConfig",
     value: function getConfig() {
       var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      return {
-        symbols: config.symbols || _configDefault["default"].symbols,
-        dataTypes: config.dataTypes || _configDefault["default"].dataTypes,
-        doors: config.doors || _configDefault["default"].doors,
-        title: config.title !== undefined ? config.title : _configDefault["default"].title,
-        error: config.error !== undefined ? config.error : _configDefault["default"].error,
-        placeholderLeft: config.placeholderLeft !== undefined ? config.placeholderLeft : _configDefault["default"].placeholderLeft,
-        placeholderRight: config.placeholderRight !== undefined ? config.placeholderRight : _configDefault["default"].placeholderRight,
-        placeholderInput: config.placeholderInput !== undefined ? config.placeholderInput : _configDefault["default"].placeholderInput
+      var keysObj = {
+        symbols: false,
+        dataTypes: false,
+        doors: false,
+        title: true,
+        error: true,
+        placeholderLeft: true,
+        placeholderRight: true,
+        placeholderInput: true
       };
+      return Object.entries(keysObj).reduce(function (target, _ref3) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+            key = _ref4[0],
+            isTxt = _ref4[1];
+
+        var value = config[key];
+        var valueDefault = _configDefault["default"][key];
+        target[key] = isTxt ? value !== undefined ? value : valueDefault : value || valueDefault;
+        return target;
+      }, {});
     }
   }, {
     key: "componentDidUpdate",
@@ -159,8 +169,8 @@ function (_Component) {
   }, {
     key: "getResult",
     value: function getResult(value) {
-      return value.reduce(function (target, _ref3) {
-        var condition = _ref3.condition;
+      return value.reduce(function (target, _ref5) {
+        var condition = _ref5.condition;
         return "".concat(target).concat(condition || '');
       }, '');
     }
@@ -223,8 +233,8 @@ function (_Component) {
           config = _this$state4.config,
           fields = _this$state4.fields,
           value = _this$state4.value;
-      return value.map(function (_ref4, index) {
-        var id = _ref4.id;
+      return value.map(function (_ref6, index) {
+        var id = _ref6.id;
         return _react["default"].createElement(_ConditionSpelling["default"], _extends({
           key: id,
           id: id,

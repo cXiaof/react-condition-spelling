@@ -72,14 +72,14 @@ function (_Component) {
         symbol = _Object$entries$2[0],
         noNeedValue = _Object$entries$2[1].noNeedValue;
 
-    var initState = {
+    var door = Object.keys(doors)[0];
+    _this.state = {
       field: field,
       type: type,
       symbol: symbol,
-      noNeedValue: noNeedValue
+      noNeedValue: noNeedValue,
+      door: door
     };
-    initState.door = Object.keys(doors)[0];
-    _this.state = initState;
     return _this;
   }
 

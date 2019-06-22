@@ -11,9 +11,8 @@ class ConditionSpellingBox extends Component {
         const { fields, symbols, doors } = props
         const [field, { type }] = Object.entries(fields)[0]
         const [symbol, { noNeedValue }] = Object.entries(symbols[type])[0]
-        let initState = { field, type, symbol, noNeedValue }
-        initState.door = Object.keys(doors)[0]
-        this.state = initState
+        const door = Object.keys(doors)[0]
+        this.state = { field, type, symbol, noNeedValue, door }
     }
 
     componentDidUpdate() {
@@ -95,11 +94,7 @@ class ConditionSpellingBox extends Component {
         let { value } = this.state
         const field = e.target.value
         const nextType = fields[field].type || 'text'
-        let nextState = {
-            ...this.state,
-            field,
-            type: nextType
-        }
+        let nextState = { ...this.state, field, type: nextType }
         if (nextType === 'number') {
             const parse = parseFloat(value).toString()
             if (value !== parse) nextState.value = undefined

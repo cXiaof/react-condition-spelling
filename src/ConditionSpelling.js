@@ -44,27 +44,26 @@ class ConditionSpelling extends Component {
     }
 
     getConfig(config = {}) {
-        return {
-            symbols: config.symbols || configDefault.symbols,
-            dataTypes: config.dataTypes || configDefault.dataTypes,
-            doors: config.doors || configDefault.doors,
-            title:
-                config.title !== undefined ? config.title : configDefault.title,
-            error:
-                config.error !== undefined ? config.error : configDefault.error,
-            placeholderLeft:
-                config.placeholderLeft !== undefined
-                    ? config.placeholderLeft
-                    : configDefault.placeholderLeft,
-            placeholderRight:
-                config.placeholderRight !== undefined
-                    ? config.placeholderRight
-                    : configDefault.placeholderRight,
-            placeholderInput:
-                config.placeholderInput !== undefined
-                    ? config.placeholderInput
-                    : configDefault.placeholderInput
+        const keysObj = {
+            symbols: false,
+            dataTypes: false,
+            doors: false,
+            title: true,
+            error: true,
+            placeholderLeft: true,
+            placeholderRight: true,
+            placeholderInput: true
         }
+        return Object.entries(keysObj).reduce((target, [key, isTxt]) => {
+            const value = config[key]
+            const valueDefault = configDefault[key]
+            target[key] = isTxt
+                ? value !== undefined
+                    ? value
+                    : valueDefault
+                : value || valueDefault
+            return target
+        }, {})
     }
 
     componentDidUpdate(preProps, preState) {

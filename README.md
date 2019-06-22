@@ -61,12 +61,12 @@ yarn bs
     or `{ dataType: 'numeric', fieldName: 'zip_code', name: 'Zip Code' }`
 
 -   config **Object**
-    - includes `symbols` `doors`and other `text config`
-    包含 `symbols` `doors`和其他`文字类config`
+    - includes `symbols` `dataTypes` `doors` and other `text config`
+    包含 `symbols` `dataTypes` `doors` 和其他`文字类config`
         1. symbols **Array**
             every type as key and value like { 'symbol text': { symbol: 'sql symbol' } } or { 'symbol text': { symbol: 'sql symbol' , preprocess: preprocessFunction} } 
             key **default** be used when no dataType of field is matched.
-            - 定义每一个type，值为 { '显示的符号': { symbol: 'sql的符号' } } 或 { '显示的符号': { symbol: 'sql的符号' , preprocess: 预处理函数} }
+            - 定义每一个type，值为 { '显示的符号': { symbol: 'sql符号' } } 或 { '显示的符号': { symbol: 'sql符号' , preprocess: 预处理函数} }
             定义 **default** key 在字段数据类型没有匹配到任何定义的类型时使用
             - e.g `{ default: { 'equal': { symbol: '=' }, number: { 'not equal': { symbol: '<>' } } }`
             or `{ default: { '=': { symbol: '<>' } }, text: { like: { symbol: 'LIKE', preprocess: (value) => '%${value}%' } } }`

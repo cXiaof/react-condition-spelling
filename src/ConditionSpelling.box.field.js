@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 const ConditionSpellingBoxField = ({ className, fields, onChange }) => (
     <select className={className} onChange={onChange}>
