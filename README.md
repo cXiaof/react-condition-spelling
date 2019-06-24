@@ -54,10 +54,10 @@ yarn bs
 
 ## Props
 
--   fields **Array**
-    - field item with fieldName,dataType(both defined in database) and a name(which show as option in select) like [{fieldName: 'field_name', dataType: 'varchar', name: 'text in input'}]
+-   fields **Array**  
+    field item with fieldName,dataType(both defined in database) and a name(which show as option in select) like [{fieldName: 'field_name', dataType: 'varchar', name: 'text in input'}]
     - 每一项字段需要包括数据库中定义的字段名和字段类型，和一个名称用于被显示在select里，如[{fieldName: '字段名', dataType: '字段类型', name: '显示的文字'}]
-    e.g `{ dataType: 'varchar', fieldName: 'qr_code', name: 'QR Code' }`
+    - e.g `{ dataType: 'varchar', fieldName: 'qr_code', name: 'QR Code' }`
     or `{ dataType: 'numeric', fieldName: 'zip_code', name: 'Zip Code' }`
 
 -   config **Object**  
