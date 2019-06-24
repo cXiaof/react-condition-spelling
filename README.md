@@ -56,13 +56,13 @@ yarn bs
 
 -   fields **Array**
     - field item with fieldName,dataType(both defined in database) and a name(which show as option in select) like [{fieldName: 'field_name', dataType: 'varchar', name: 'text in input'}]
-    每一项字段需要包括数据库中定义的字段名和字段类型，和一个名称用于被显示在select里，如[{fieldName: '字段名', dataType: '字段类型', name: '显示的文字'}]
+    - 每一项字段需要包括数据库中定义的字段名和字段类型，和一个名称用于被显示在select里，如[{fieldName: '字段名', dataType: '字段类型', name: '显示的文字'}]
     e.g `{ dataType: 'varchar', fieldName: 'qr_code', name: 'QR Code' }`
     or `{ dataType: 'numeric', fieldName: 'zip_code', name: 'Zip Code' }`
 
 -   config **Object**
-    - includes `symbols` `dataTypes` `doors` and other `text config`
-    包含 `symbols` `dataTypes` `doors` 和其他`文字类config`
+    includes `symbols` `dataTypes` `doors` and other `text config`
+    - 包含 `symbols` `dataTypes` `doors` 和其他`文字类config`
         1. symbols **Array**
             every type as key and value like { 'symbol text': { symbol: 'sql symbol' } } or { 'symbol text': { symbol: 'sql symbol' , preprocess: preprocessFunction} } 
             key **default** be used when no dataType of field is matched.
@@ -73,7 +73,7 @@ yarn bs
 
         1. dataTypes **Object**
             dataTypes which every type of symbols keys includes
-            symbols里每个类型包含哪些数据类型
+            - symbols里每个类型包含哪些数据类型
             - e.g `text: ['varchar', 'char', 'text', 'boolean']`
             or `number: ['int2', 'int4', 'int8', 'numeric']`
 
@@ -85,35 +85,28 @@ yarn bs
 
         1. other text config
             - title **String**
-                text at first grid in first line
-                首行的开头显示的文字
+                text at first grid in first line 首行的开头显示的文字
             - error **String**
-                text when no field in props
-                当props里没有字段时显示的文字
+                text when no field in props 当props里没有字段时显示的文字
             - placeholderLeft **String**
-                placeholder for left input every line
-                每行左括号输入框的placeholder
+                placeholder for left input every line 每行左括号输入框的placeholder
             - placeholderRight **String**
-                placeholder for right input every line
-                每行右括号输入框的placeholder
+                placeholder for right input every line 每行右括号输入框的placeholder
             - placeholderInput **String**
-                placeholder for value input every line
-                每行值输入框的placeholder
+                placeholder for value input every line 每行值输入框的placeholder
 
 -   max **Number**
-    - how much lines be shown at most
-    定义最多可以出现几行
+    how much lines be shown at most
+    - 定义最多可以出现几行
 
 -   showAll **Boolean**
-    - whether all lines always be be shown or not **work only if has prop: max**
-    是否总是显示所有行 **仅在有prop: max时有效**
+    whether all lines always be be shown or not **work only if has prop: max**
+    - 是否总是显示所有行 **仅在有prop: max时有效**
 
 -   onChange **Funtion**  
-    - callback when spelling effective sql, get two attr `condition` and `inputs`
-    每当拼写出有效的sql语句时的回调，接收两个参数`condition`和`inputs`
+    callback when spelling effective sql, get two attr `condition` and `inputs`
+    - 每当拼写出有效的sql语句时的回调，接收两个参数`condition`和`inputs`
         - condition **String**
-            effective spelling sql
-            拼写出的有效sql
+            effective spelling sql 拼写出的有效sql
         - inputs **Array**
-            every line Object item Array
-            每一行的对象数组
+            every line Object item Array 每一行的对象数组
