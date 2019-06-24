@@ -32,7 +32,7 @@ var ConditionSpellingBoxField = function ConditionSpellingBoxField(_ref) {
     return _react["default"].createElement("option", {
       key: key,
       value: key
-    }, name);
+    }, name || key);
   }));
 };
 
