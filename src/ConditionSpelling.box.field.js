@@ -4,7 +4,7 @@ const ConditionSpellingBoxField = ({ className, fields, onChange }) => (
     <select className={className} onChange={onChange}>
         {Object.entries(fields).map(([key, { name }]) => (
             <option key={key} value={key}>
-                {name}
+                {name || key}
             </option>
         ))}
     </select>

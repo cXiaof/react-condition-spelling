@@ -4,6 +4,7 @@
   .react-condition-spelling .rcs-box > * {
     box-sizing: border-box;
     height: calc(1.2rem + 4px);
+    line-height: calc(1.2rem + 4px);
     padding: 0 0.4rem;
     margin: 0 0.1rem;
     vertical-align: middle; }

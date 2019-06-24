@@ -5,7 +5,9 @@
         margin-bottom: 0.2rem;
         > * {
             box-sizing: border-box;
-            height: calc(1.2rem + 4px);
+            $height: calc(1.2rem + 4px);
+            height: $height;
+            line-height: $height;
             padding: 0 0.4rem;
             margin: 0 0.1rem;
             vertical-align: middle;
