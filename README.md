@@ -60,10 +60,10 @@ yarn bs
     e.g `{ dataType: 'varchar', fieldName: 'qr_code', name: 'QR Code' }`
     or `{ dataType: 'numeric', fieldName: 'zip_code', name: 'Zip Code' }`
 
--   config **Object**
+-   config **Object**  
     includes `symbols` `dataTypes` `doors` and other `text config`
     - 包含 `symbols` `dataTypes` `doors` 和其他`文字类config`
-        1. symbols **Array**
+        1. symbols **Array**  
             every type as key and value like { 'symbol text': { symbol: 'sql symbol' } } or { 'symbol text': { symbol: 'sql symbol' , preprocess: preprocessFunction} } 
             key **default** be used when no dataType of field is matched.
             - 定义每一个type，值为 { '显示的符号': { symbol: 'sql符号' } } 或 { '显示的符号': { symbol: 'sql符号' , preprocess: 预处理函数} }
@@ -71,19 +71,19 @@ yarn bs
             - e.g `{ default: { 'equal': { symbol: '=' }, number: { 'not equal': { symbol: '<>' } } }`
             or `{ default: { '=': { symbol: '<>' } }, text: { like: { symbol: 'LIKE', preprocess: (value) => '%${value}%' } } }`
 
-        1. dataTypes **Object**
+        2. dataTypes **Object**  
             dataTypes which every type of symbols keys includes
             - symbols里每个类型包含哪些数据类型
             - e.g `text: ['varchar', 'char', 'text', 'boolean']`
             or `number: ['int2', 'int4', 'int8', 'numeric']`
 
-        1. doors **Object**
+        3. doors **Object**  
             sql doors like { and: 'AND' }
             - sql的逻辑门如{ 且: 'AND' }
             - e.g `{ and: 'AND' }`
             or `{ or: 'OR' }`
 
-        1. other text config
+        4. other text config
             - title **String**
                 text at first grid in first line 首行的开头显示的文字
             - error **String**
@@ -95,11 +95,11 @@ yarn bs
             - placeholderInput **String**
                 placeholder for value input every line 每行值输入框的placeholder
 
--   max **Number**
+-   max **Number**  
     how much lines be shown at most
     - 定义最多可以出现几行
 
--   showAll **Boolean**
+-   showAll **Boolean**  
     whether all lines always be be shown or not **work only if has prop: max**
     - 是否总是显示所有行 **仅在有prop: max时有效**
 
