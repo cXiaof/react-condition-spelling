@@ -10,12 +10,12 @@
     vertical-align: middle; }
     .react-condition-spelling .rcs-box > *:nth-child(1) {
       width: calc(10% - 0.1rem * 1);
+      padding: 0;
       margin-left: 0;
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
-      padding: 0; }
+      white-space: nowrap; }
     .react-condition-spelling .rcs-box > *:nth-child(2) {
       width: calc(10% - 0.1rem * 2); }
     .react-condition-spelling .rcs-box > *:nth-child(3) {

@@ -16,12 +16,12 @@
             }
             &:nth-child(1) {
                 @include calcWidth(10, 1);
+                padding: 0;
                 margin-left: 0;
                 display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                padding: 0;
             }
             &:nth-child(2) {
                 @include calcWidth(10, 2);

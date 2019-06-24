@@ -34,7 +34,7 @@
     "bs": "npm run format & npm run build-storybook",
     "build": "babel src -d dist & gulp",
     "b": "npm run format & npm run build",
-    "format": "prettier --loglevel silent --write {src,stories}/**/*.js",
+    "format": "prettier --loglevel silent --write {.storybook,src,stories}/**/*.js",
     "f": "npm run format",
     "prepublishOnly": "npm run format & npm run build-storybook & npm run build",
     "p": "npm run format & npm run build-storybook & npm run build"

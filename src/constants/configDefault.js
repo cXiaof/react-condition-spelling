@@ -1,12 +1,11 @@
 export default {
-    symbols: {
-        default: {
-            '=': { symbol: '=' },
-            '≠': { symbol: '<>' }
-        },
-        text: {
-            '=': { symbol: '=' },
-            '≠': { symbol: '<>' },
+    doors: { and: 'AND', or: 'OR' },
+    default: { '=': { symbol: '=' }, '≠': { symbol: '<>' } },
+    text: {
+        dataTypes: ['varchar', 'char', 'text', 'blob', 'boolean'],
+        symbols: {
+            equal: { symbol: '=' },
+            'not equal': { symbol: '<>' },
             like: {
                 symbol: 'LIKE',
                 preprocess: (value) => `%${value}%`
@@ -21,8 +20,20 @@ export default {
             },
             'is null': { symbol: 'IS NULL', noNeedValue: true },
             'is not null': { symbol: 'IS NOT NULL', noNeedValue: true }
-        },
-        number: {
+        }
+    },
+    number: {
+        dataTypes: [
+            'int',
+            'float',
+            'double',
+            'decimal',
+            'int2',
+            'int4',
+            'int8',
+            'numeric'
+        ],
+        symbols: {
             '=': { symbol: '=' },
             '≠': { symbol: '<>' },
             '<': { symbol: '<' },
@@ -30,17 +41,5 @@ export default {
             '>': { symbol: '>' },
             '>=': { symbol: '>=' }
         }
-    },
-    dataTypes: {
-        text: ['varchar', 'char', 'text', 'boolean'],
-        number: ['int2', 'int4', 'int8', 'numeric']
-    },
-    doors: { and: 'AND', or: 'OR' },
-
-    title: 'condition: ',
-    waiting: 'No screening',
-    error: 'No fields!',
-    placeholderLeft: '" ( " only',
-    placeholderRight: '" ) " only',
-    placeholderInput: 'input here'
+    }
 }
