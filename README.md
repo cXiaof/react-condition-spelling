@@ -104,9 +104,11 @@ yarn bs
     - 是否总是显示所有行 **仅在有prop: max时有效**
 
 -   onChange **Funtion**  
-    callback when spelling effective sql, get two attr `condition` and `inputs`
-    - 每当拼写出有效的sql语句时的回调，接收两个参数`condition`和`inputs`
+    callback when spelling effective sql, get an Object includes `condition`, `spelling` and `inputs`
+    - 每当拼写出有效的sql语句时的回调，接收一个对象包含`condition`, `spelling` and `inputs`
         - condition **String**
             effective spelling sql 拼写出的有效sql
+        - spelling **String**
+            spelling text 拼写出的文字
         - inputs **Array**
             every line Object item Array 每一行的对象数组

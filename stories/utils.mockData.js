@@ -36,11 +36,12 @@ export const configChZn = {
             },
             为null: { symbol: 'IS NULL', noNeedValue: true }
         },
-        number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
-    }
+        number: { 等于: { symbol: '=' }, 不等于: { symbol: '<>' } }
+    },
+    doors: { 且: 'AND', 或: 'OR' }
 }
 
-export const onChange = (condition, inputs) => {
-    console.log(condition)
-    console.log(inputs)
+export const onChange = (result) => {
+    const { condition, spelling, inputs } = result
+    console.log(condition, spelling, inputs)
 }

@@ -12,26 +12,48 @@ class ConditionSpellingBox extends Component {
         const [field, { type }] = Object.entries(fields)[0]
         const [symbol, { noNeedValue }] = Object.entries(symbols[type])[0]
         const door = Object.keys(doors)[0]
-        this.state = { field, type, symbol, noNeedValue, door }
+        this.state = {
+            field,
+            type,
+            symbol,
+            noNeedValue,
+            door,
+            left: '',
+            right: ''
+        }
     }
 
     componentDidUpdate() {
-        const { onChange, doors, first } = this.props
-        let { field, door, left, right } = this.state
+        const { onChange } = this.props
         const symbolValue = this.getConditionSymbolValue()
-        let condition
+        let condition = ''
+        let text = ''
         if (symbolValue) {
-            let { symbol, value } = symbolValue
-            value = value || ''
-            left = left || ''
-            right = right || ''
-            condition = ` ${left}${field} ${symbol}${value}${right}`
-            if (!first && door) condition = ` ${doors[door]}${condition}`
+            text = this.getSpelling(symbolValue.value === undefined)
+            condition = this.getCondition(symbolValue)
         }
         if (this.lastCondition !== condition) {
             this.lastCondition = condition
-            onChange(condition, { ...this.state })
+            onChange(condition, text, { ...this.state })
         }
+    }
+
+    getSpelling(noNeedValue) {
+        const { first } = this.props
+        let { field, door, left, right, symbol, value } = this.state
+        value = noNeedValue ? '' : value
+        let txt = `${left}${field} ${symbol}${value ? ' ' : ''}${value}${right}`
+        if (!first && door) txt = ` ${door} ${txt}`
+        return txt
+    }
+
+    getCondition({ symbol, value }) {
+        const { fields, doors, first } = this.props
+        let { field, door, left, right } = this.state
+        field = fields[field].fieldName
+        let condition = ` ${left}${field} ${symbol}${value || ''}${right}`
+        if (!first && door) condition = ` ${doors[door]}${condition}`
+        return condition
     }
 
     getConditionSymbolValue() {

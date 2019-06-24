@@ -16,7 +16,8 @@ class ConditionSpelling extends Component {
         const fields = this.getFiedls(props.fields, config.dataTypes)
         const value = this.getInitValue(max, showAll)
         const result = this.alwaysTrue
-        this.state = { max, showAll, config, fields, value, result }
+        const text = config.waiting
+        this.state = { max, showAll, config, fields, value, result, text }
     }
 
     getInitValue(max, showAll) {
@@ -32,12 +33,12 @@ class ConditionSpelling extends Component {
         if (!Array.isArray(fields) || fields.length === 0) return {}
         return fields.reduce((result, field) => {
             const { fieldName, dataType, name } = field
-            result[fieldName] = Object.entries(dataTypes).reduce(
+            result[name || fieldName] = Object.entries(dataTypes).reduce(
                 (target, [key, types]) => {
                     if (types.includes(dataType)) target.type = key
                     return target
                 },
-                { name, type: 'default' }
+                { fieldName, type: 'default' }
             )
             return result
         }, {})
@@ -49,6 +50,7 @@ class ConditionSpelling extends Component {
             dataTypes: false,
             doors: false,
             title: true,
+            waiting: true,
             error: true,
             placeholderLeft: true,
             placeholderRight: true,
@@ -68,9 +70,15 @@ class ConditionSpelling extends Component {
 
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
-        const { result, value } = this.state
-        if (onChange && result !== preState.result)
-            onChange(result || this.alwaysTrue, value)
+        const { result, value, text, config } = this.state
+        if (onChange && result !== preState.result) {
+            const obj = {
+                condition: result || this.alwaysTrue,
+                spelling: result ? text : config.waiting,
+                inputs: value
+            }
+            onChange(obj)
+        }
     }
 
     getOneItemWithUid() {
@@ -84,18 +92,24 @@ class ConditionSpelling extends Component {
         )
     }
 
-    handleBoxChange(i, condition, data) {
+    handleBoxChange(i, condition, spelling, data) {
         let value = [...this.state.value]
         value[i] = {
             ...value[i],
             condition,
+            spelling,
             data,
             illegal: condition === undefined
         }
         const result = this.getResult(value)
+        const text = value.reduce(
+            (target, { spelling }) => `${target}${spelling || ''}`,
+            ''
+        )
         this.setState({
             ...this.state,
             value,
+            text,
             result
         })
     }

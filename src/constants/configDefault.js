@@ -38,6 +38,7 @@ export default {
     doors: { and: 'AND', or: 'OR' },
 
     title: 'condition: ',
+    waiting: 'No screening',
     error: 'No fields!',
     placeholderLeft: '" ( " only',
     placeholderRight: '" ) " only',
