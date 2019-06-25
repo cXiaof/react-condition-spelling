@@ -5,20 +5,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  symbols: {
-    "default": {
-      '=': {
-        symbol: '='
-      },
-      '≠': {
-        symbol: '<>'
-      }
+  doors: {
+    and: 'AND',
+    or: 'OR'
+  },
+  "default": {
+    '=': {
+      symbol: '='
     },
-    text: {
-      '=': {
+    '≠': {
+      symbol: '<>'
+    }
+  },
+  text: {
+    dataTypes: ['varchar', 'char', 'text', 'blob', 'boolean'],
+    symbols: {
+      equal: {
         symbol: '='
       },
-      '≠': {
+      'not equal': {
         symbol: '<>'
       },
       like: {
@@ -47,8 +52,11 @@ var _default = {
         symbol: 'IS NOT NULL',
         noNeedValue: true
       }
-    },
-    number: {
+    }
+  },
+  number: {
+    dataTypes: ['int', 'float', 'double', 'decimal', 'int2', 'int4', 'int8', 'numeric'],
+    symbols: {
       '=': {
         symbol: '='
       },
@@ -68,19 +76,6 @@ var _default = {
         symbol: '>='
       }
     }
-  },
-  dataTypes: {
-    text: ['varchar', 'char', 'text', 'boolean'],
-    number: ['int2', 'int4', 'int8', 'numeric']
-  },
-  doors: {
-    and: 'AND',
-    or: 'OR'
-  },
-  title: 'condition: ',
-  error: 'No fields!',
-  placeholderLeft: '" ( " only',
-  placeholderRight: '" ) " only',
-  placeholderInput: 'input here'
+  }
 };
 exports["default"] = _default;
