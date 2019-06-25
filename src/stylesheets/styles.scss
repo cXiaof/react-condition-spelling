@@ -16,9 +16,9 @@
             }
             &:nth-child(1) {
                 @include calcWidth(10, 1);
+                display: inline-block;
                 padding: 0;
                 margin-left: 0;
-                display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -41,9 +41,6 @@
             &:nth-child(7) {
                 @include calcWidth(5);
                 margin: 0;
-                display: inline-flex;
-                align-items: center;
-                justify-content: space-around;
                 i {
                     font-size: 1rem;
                     margin: 0 2px;

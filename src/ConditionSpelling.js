@@ -2,25 +2,39 @@ import React, { Component } from 'react'
 import uuid from 'uuid'
 
 import configDefault from './constants/configDefault'
+import copyDefault from './constants/copyDefault'
 
 import ConditionSpellingBox from './ConditionSpelling.box'
 
 class ConditionSpelling extends Component {
     constructor(props) {
         super(props)
-        this.alwaysTrue = ' 1 = 1'
         const max = Math.max(~~props.max, 0) || Infinity
         const showAll =
             props.showAll && props.max !== undefined && max !== Infinity
-        const config = this.getConfig(props.config)
-        const fields = this.getFiedls(props.fields, config.dataTypes)
-        const value = this.getInitValue(max, showAll)
-        const result = this.alwaysTrue
-        const text = config.waiting
-        this.state = { max, showAll, config, fields, value, result, text }
+        const data = this.getInitData(max, showAll)
+        const copy = { ...copyDefault, ...props.copy }
+        const config = { ...configDefault, ...props.config }
+        const fields = this.getFiedls(props.fields, config)
+        const condition = copy.alwaysTrue
+        const spelling = copy.waiting
+        this.state = {
+            max,
+            showAll,
+            data,
+            copy,
+            config,
+            fields,
+            condition,
+            spelling
+        }
     }
 
-    getInitValue(max, showAll) {
+    getOneItemWithUid() {
+        return { id: uuid.v1().toString() }
+    }
+
+    getInitData(max, showAll) {
         if (!showAll) return [this.getOneItemWithUid()]
         let arr = []
         for (let i = 0; i < max; i++) {
@@ -29,138 +43,117 @@ class ConditionSpelling extends Component {
         return arr
     }
 
-    getFiedls(fields, dataTypes = {}) {
-        if (!Array.isArray(fields) || fields.length === 0) return {}
-        return fields.reduce((result, field) => {
-            const { fieldName, dataType, name } = field
-            result[name || fieldName] = Object.entries(dataTypes).reduce(
-                (target, [key, types]) => {
-                    if (types.includes(dataType)) target.type = key
-                    return target
-                },
-                { fieldName, type: 'default' }
-            )
-            return result
-        }, {})
-    }
-
-    getConfig(config = {}) {
-        const keysObj = {
-            symbols: false,
-            dataTypes: false,
-            doors: false,
-            title: true,
-            waiting: true,
-            error: true,
-            placeholderLeft: true,
-            placeholderRight: true,
-            placeholderInput: true
-        }
-        return Object.entries(keysObj).reduce((target, [key, isTxt]) => {
-            const value = config[key]
-            const valueDefault = configDefault[key]
-            target[key] = isTxt
-                ? value !== undefined
-                    ? value
-                    : valueDefault
-                : value || valueDefault
+    getFiedls(fields = [], config) {
+        return fields.reduce((target, field) => {
+            const { dataType, fieldName, name } = field
+            let type = ''
+            Object.entries(config).forEach(([key, { dataTypes, symbols }]) => {
+                if (key !== 'doors' && key !== 'default') {
+                    if (dataTypes.includes(dataType)) type = key
+                }
+            })
+            target[name || fieldName] = {
+                fieldName,
+                type: type || 'text',
+                symbols: type ? config[type].symbols : config.default
+            }
             return target
         }, {})
     }
 
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
-        const { result, value, text, config } = this.state
-        if (onChange && result !== preState.result) {
+        const { condition, spelling, config, data } = this.state
+        if (onChange && condition !== preState.condition) {
             const obj = {
-                condition: result || this.alwaysTrue,
-                spelling: result ? text : config.waiting,
-                inputs: value
+                condition: condition || this.alwaysTrue,
+                spelling: condition ? spelling : config.waiting,
+                inputs: data
             }
             onChange(obj)
         }
     }
 
-    getOneItemWithUid() {
-        return { id: uuid.v1().toString() }
-    }
-
-    getResult(value) {
-        return value.reduce(
+    getCondition(data) {
+        return data.reduce(
             (target, { condition }) => `${target}${condition || ''}`,
             ''
         )
     }
 
-    handleBoxChange(i, condition, spelling, data) {
-        let value = [...this.state.value]
-        value[i] = {
-            ...value[i],
-            condition,
-            spelling,
-            data,
-            illegal: condition === undefined
-        }
-        const result = this.getResult(value)
-        const text = value.reduce(
+    getSpelling(data) {
+        return data.reduce(
             (target, { spelling }) => `${target}${spelling || ''}`,
             ''
         )
+    }
+
+    handleBoxChange(i, condition, spelling, state) {
+        let data = [...this.state.data]
+        data[i] = {
+            ...data[i],
+            condition,
+            spelling,
+            state
+        }
+        condition = this.getCondition(data)
+        spelling = this.getSpelling(data)
         this.setState({
             ...this.state,
-            value,
-            text,
-            result
+            data,
+            condition,
+            spelling
         })
     }
 
     handleInsert(index) {
-        let { value, max } = this.state
-        if (value.length === max) return
-        value.splice(index + 1, 0, this.getOneItemWithUid())
+        let { data, max } = this.state
+        if (data.length === max) return
+        data.splice(index + 1, 0, this.getOneItemWithUid())
         this.setState({
             ...this.state,
-            value
+            data
         })
     }
 
     handleDelete(index) {
-        let { max, showAll } = this.state
-        let value = [...this.state.value]
-        value.splice(index, 1)
-        if (value.length === 0) value = [this.getOneItemWithUid()]
+        const { max, showAll } = this.state
+        let data = [...this.state.data]
+        data.splice(index, 1)
+        if (data.length === 0) data.push(this.getOneItemWithUid())
         if (showAll)
-            for (let index = 0; index < max - value.length; index++) {
-                value.push(this.getOneItemWithUid())
+            for (let index = 0; index < max - data.length; index++) {
+                data.push(this.getOneItemWithUid())
             }
-        const result = this.getResult(value)
+        const condition = this.getCondition(data)
         this.setState({
             ...this.state,
-            value,
-            result
+            data,
+            condition
         })
     }
 
     getRcsBoxes() {
-        const { showAll, max, config, fields, value } = this.state
-        return value.map(({ id }, index) => (
+        const { max, showAll, data, copy, config, fields } = this.state
+        return data.map(({ id }, index) => (
             <ConditionSpellingBox
                 key={id}
                 id={id}
                 first={index === 0}
-                noInsert={showAll || max === value.length}
+                noInsert={showAll || max === data.length}
+                doors={config.doors}
                 fields={fields}
                 onChange={this.handleBoxChange.bind(this, index)}
                 onAdd={this.handleInsert.bind(this, index)}
                 onDelete={this.handleDelete.bind(this, index)}
-                {...config}
+                {...copy}
             />
         ))
     }
 
     getRcsBody() {
-        const { fields, config } = this.state
-        if (Object.keys(fields).length === 0) return config.error
+        const { fields, copy } = this.state
+        if (Object.keys(fields).length === 0) return copy.error
         return this.getRcsBoxes()
     }
 
