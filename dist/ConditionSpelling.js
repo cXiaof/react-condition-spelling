@@ -11,6 +11,8 @@ var _uuid = _interopRequireDefault(require("uuid"));
 
 var _configDefault = _interopRequireDefault(require("./constants/configDefault"));
 
+var _copyDefault = _interopRequireDefault(require("./constants/copyDefault"));
+
 var _ConditionSpelling = _interopRequireDefault(require("./ConditionSpelling.box"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -20,10 +22,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -40,6 +38,10 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -68,31 +70,42 @@ function (_Component) {
     _classCallCheck(this, ConditionSpelling);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConditionSpelling).call(this, props));
-    _this.alwaysTrue = ' 1 = 1';
     var max = Math.max(~~props.max, 0) || Infinity;
     var showAll = props.showAll && props.max !== undefined && max !== Infinity;
 
-    var config = _this.getConfig(props.config);
+    var data = _this.getInitData(max, showAll);
 
-    var fields = _this.getFiedls(props.fields, config.dataTypes);
+    var copy = _objectSpread({}, _copyDefault["default"], props.copy);
 
-    var value = _this.getInitValue(max, showAll);
+    var config = _objectSpread({}, _configDefault["default"], props.config);
 
-    var result = _this.alwaysTrue;
+    var fields = _this.getFiedls(props.fields, config);
+
+    var condition = copy.alwaysTrue;
+    var spelling = copy.waiting;
     _this.state = {
       max: max,
       showAll: showAll,
+      data: data,
+      copy: copy,
       config: config,
       fields: fields,
-      value: value,
-      result: result
+      condition: condition,
+      spelling: spelling
     };
     return _this;
   }
 
   _createClass(ConditionSpelling, [{
-    key: "getInitValue",
-    value: function getInitValue(max, showAll) {
+    key: "getOneItemWithUid",
+    value: function getOneItemWithUid() {
+      return {
+        id: _uuid["default"].v1().toString()
+      };
+    }
+  }, {
+    key: "getInitData",
+    value: function getInitData(max, showAll) {
       if (!showAll) return [this.getOneItemWithUid()];
       var arr = [];
 
@@ -104,49 +117,30 @@ function (_Component) {
     }
   }, {
     key: "getFiedls",
-    value: function getFiedls(fields) {
-      var dataTypes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      if (!Array.isArray(fields) || fields.length === 0) return {};
-      return fields.reduce(function (result, field) {
-        var fieldName = field.fieldName,
-            dataType = field.dataType,
+    value: function getFiedls() {
+      var fields = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+      var config = arguments.length > 1 ? arguments[1] : undefined;
+      return fields.reduce(function (target, field) {
+        var dataType = field.dataType,
+            fieldName = field.fieldName,
             name = field.name;
-        result[fieldName] = Object.entries(dataTypes).reduce(function (target, _ref) {
+        var type = '';
+        Object.entries(config).forEach(function (_ref) {
           var _ref2 = _slicedToArray(_ref, 2),
               key = _ref2[0],
-              types = _ref2[1];
+              _ref2$ = _ref2[1],
+              dataTypes = _ref2$.dataTypes,
+              symbols = _ref2$.symbols;
 
-          if (types.includes(dataType)) target.type = key;
-          return target;
-        }, {
-          name: name,
-          type: 'default'
+          if (key !== 'doors' && key !== 'default') {
+            if (dataTypes.includes(dataType)) type = key;
+          }
         });
-        return result;
-      }, {});
-    }
-  }, {
-    key: "getConfig",
-    value: function getConfig() {
-      var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-      var keysObj = {
-        symbols: false,
-        dataTypes: false,
-        doors: false,
-        title: true,
-        error: true,
-        placeholderLeft: true,
-        placeholderRight: true,
-        placeholderInput: true
-      };
-      return Object.entries(keysObj).reduce(function (target, _ref3) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-            key = _ref4[0],
-            isTxt = _ref4[1];
-
-        var value = config[key];
-        var valueDefault = _configDefault["default"][key];
-        target[key] = isTxt ? value !== undefined ? value : valueDefault : value || valueDefault;
+        target[name || fieldName] = {
+          fieldName: fieldName,
+          type: type || 'text',
+          symbols: type ? config[type].symbols : config["default"]
+        };
         return target;
       }, {});
     }
@@ -155,51 +149,64 @@ function (_Component) {
     value: function componentDidUpdate(preProps, preState) {
       var onChange = this.props.onChange;
       var _this$state = this.state,
-          result = _this$state.result,
-          value = _this$state.value;
-      if (onChange && result !== preState.result) onChange(result || this.alwaysTrue, value);
+          condition = _this$state.condition,
+          spelling = _this$state.spelling,
+          config = _this$state.config,
+          data = _this$state.data;
+
+      if (onChange && condition !== preState.condition) {
+        var obj = {
+          condition: condition || this.alwaysTrue,
+          spelling: condition ? spelling : config.waiting,
+          inputs: data
+        };
+        onChange(obj);
+      }
     }
   }, {
-    key: "getOneItemWithUid",
-    value: function getOneItemWithUid() {
-      return {
-        id: _uuid["default"].v1().toString()
-      };
-    }
-  }, {
-    key: "getResult",
-    value: function getResult(value) {
-      return value.reduce(function (target, _ref5) {
-        var condition = _ref5.condition;
+    key: "getCondition",
+    value: function getCondition(data) {
+      return data.reduce(function (target, _ref3) {
+        var condition = _ref3.condition;
         return "".concat(target).concat(condition || '');
       }, '');
     }
   }, {
+    key: "getSpelling",
+    value: function getSpelling(data) {
+      return data.reduce(function (target, _ref4) {
+        var spelling = _ref4.spelling;
+        return "".concat(target).concat(spelling || '');
+      }, '');
+    }
+  }, {
     key: "handleBoxChange",
-    value: function handleBoxChange(i, condition, data) {
-      var value = _toConsumableArray(this.state.value);
+    value: function handleBoxChange(i, condition, spelling, state) {
+      var data = _toConsumableArray(this.state.data);
 
-      value[i] = _objectSpread({}, value[i], {
+      data[i] = _objectSpread({}, data[i], {
         condition: condition,
-        data: data,
-        illegal: condition === undefined
+        spelling: spelling,
+        state: state
       });
-      var result = this.getResult(value);
+      condition = this.getCondition(data);
+      spelling = this.getSpelling(data);
       this.setState(_objectSpread({}, this.state, {
-        value: value,
-        result: result
+        data: data,
+        condition: condition,
+        spelling: spelling
       }));
     }
   }, {
     key: "handleInsert",
     value: function handleInsert(index) {
       var _this$state2 = this.state,
-          value = _this$state2.value,
+          data = _this$state2.data,
           max = _this$state2.max;
-      if (value.length === max) return;
-      value.splice(index + 1, 0, this.getOneItemWithUid());
+      if (data.length === max) return;
+      data.splice(index + 1, 0, this.getOneItemWithUid());
       this.setState(_objectSpread({}, this.state, {
-        value: value
+        data: data
       }));
     }
   }, {
@@ -209,17 +216,17 @@ function (_Component) {
           max = _this$state3.max,
           showAll = _this$state3.showAll;
 
-      var value = _toConsumableArray(this.state.value);
+      var data = _toConsumableArray(this.state.data);
 
-      value.splice(index, 1);
-      if (value.length === 0) value = [this.getOneItemWithUid()];
-      if (showAll) for (var _index = 0; _index < max - value.length; _index++) {
-        value.push(this.getOneItemWithUid());
+      data.splice(index, 1);
+      if (data.length === 0) data.push(this.getOneItemWithUid());
+      if (showAll) for (var _index = 0; _index < max - data.length; _index++) {
+        data.push(this.getOneItemWithUid());
       }
-      var result = this.getResult(value);
+      var condition = this.getCondition(data);
       this.setState(_objectSpread({}, this.state, {
-        value: value,
-        result: result
+        data: data,
+        condition: condition
       }));
     }
   }, {
@@ -228,23 +235,25 @@ function (_Component) {
       var _this2 = this;
 
       var _this$state4 = this.state,
-          showAll = _this$state4.showAll,
           max = _this$state4.max,
+          showAll = _this$state4.showAll,
+          data = _this$state4.data,
+          copy = _this$state4.copy,
           config = _this$state4.config,
-          fields = _this$state4.fields,
-          value = _this$state4.value;
-      return value.map(function (_ref6, index) {
-        var id = _ref6.id;
+          fields = _this$state4.fields;
+      return data.map(function (_ref5, index) {
+        var id = _ref5.id;
         return _react["default"].createElement(_ConditionSpelling["default"], _extends({
           key: id,
           id: id,
           first: index === 0,
-          noInsert: showAll || max === value.length,
+          noInsert: showAll || max === data.length,
+          doors: config.doors,
           fields: fields,
           onChange: _this2.handleBoxChange.bind(_this2, index),
           onAdd: _this2.handleInsert.bind(_this2, index),
           onDelete: _this2.handleDelete.bind(_this2, index)
-        }, config));
+        }, copy));
       });
     }
   }, {
@@ -252,8 +261,8 @@ function (_Component) {
     value: function getRcsBody() {
       var _this$state5 = this.state,
           fields = _this$state5.fields,
-          config = _this$state5.config;
-      if (Object.keys(fields).length === 0) return config.error;
+          copy = _this$state5.copy;
+      if (Object.keys(fields).length === 0) return copy.error;
       return this.getRcsBoxes();
     }
   }, {

@@ -15,14 +15,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -59,36 +51,30 @@ function (_Component) {
   _createClass(ConditionSpellingBoxParenthese, [{
     key: "handleChange",
     value: function handleChange(e) {
-      var _this$props = this.props,
-          left = _this$props.left,
-          right = _this$props.right;
+      var reg = this.props.reg;
       if (e.target.value === '') this.updateValueFireChange('');
-      var match = [];
-      var matchLeft = e.target.value.match(/\(/g);
-      var matchRight = e.target.value.match(/\)/g);
-      if (left && matchLeft) match = [].concat(_toConsumableArray(match), _toConsumableArray(matchLeft));
-      if (right && matchRight) match = [].concat(_toConsumableArray(match), _toConsumableArray(matchRight));
-      if (match.length > 0) this.updateValueFireChange(match.join(''));
+      var match = e.target.value.match(reg);
+      if (match && match.length > 0) this.updateValueFireChange(match.join(''));
     }
   }, {
     key: "updateValueFireChange",
     value: function updateValueFireChange(value) {
       var onChange = this.props.onChange;
-      this.setState(_objectSpread({}, this.state, {
-        value: value
-      }));
       onChange({
         target: {
           value: value
         }
       });
+      this.setState(_objectSpread({}, this.state, {
+        value: value
+      }));
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props2 = this.props,
-          className = _this$props2.className,
-          placeholder = _this$props2.placeholder;
+      var _this$props = this.props,
+          className = _this$props.className,
+          placeholder = _this$props.placeholder;
       var value = this.state.value;
       return _react["default"].createElement("input", {
         value: value,

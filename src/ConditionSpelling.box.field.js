@@ -2,9 +2,9 @@ import React from 'react'
 
 const ConditionSpellingBoxField = ({ className, fields, onChange }) => (
     <select className={className} onChange={onChange}>
-        {Object.entries(fields).map(([key, { name }]) => (
+        {Object.keys(fields).map((key) => (
             <option key={key} value={key}>
-                {name || key}
+                {key}
             </option>
         ))}
     </select>

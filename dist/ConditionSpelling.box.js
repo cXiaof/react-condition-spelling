@@ -7,13 +7,13 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _ConditionSpellingBox = _interopRequireDefault(require("./ConditionSpelling.box.field"));
+var _ConditionSpellingBox = _interopRequireDefault(require("./ConditionSpelling.box.door"));
 
-var _ConditionSpellingBox2 = _interopRequireDefault(require("./ConditionSpelling.box.door"));
+var _ConditionSpellingBox2 = _interopRequireDefault(require("./ConditionSpelling.box.parenthese"));
 
-var _ConditionSpellingBox3 = _interopRequireDefault(require("./ConditionSpelling.box.symbol"));
+var _ConditionSpellingBox3 = _interopRequireDefault(require("./ConditionSpelling.box.field"));
 
-var _ConditionSpellingBox4 = _interopRequireDefault(require("./ConditionSpelling.box.parenthese"));
+var _ConditionSpellingBox4 = _interopRequireDefault(require("./ConditionSpelling.box.symbol"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -61,24 +61,28 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ConditionSpellingBox).call(this, props));
     var fields = props.fields,
-        symbols = props.symbols,
         doors = props.doors;
+
+    var _Object$keys = Object.keys(doors),
+        _Object$keys2 = _slicedToArray(_Object$keys, 1),
+        door = _Object$keys2[0];
 
     var _Object$entries$ = _slicedToArray(Object.entries(fields)[0], 2),
         field = _Object$entries$[0],
-        type = _Object$entries$[1].type;
+        symbols = _Object$entries$[1].symbols;
 
-    var _Object$entries$2 = _slicedToArray(Object.entries(symbols[type])[0], 2),
-        symbol = _Object$entries$2[0],
-        noNeedValue = _Object$entries$2[1].noNeedValue;
+    var _Object$keys3 = Object.keys(symbols),
+        _Object$keys4 = _slicedToArray(_Object$keys3, 1),
+        symbol = _Object$keys4[0];
 
-    var door = Object.keys(doors)[0];
     _this.state = {
+      door: door,
+      left: '',
       field: field,
-      type: type,
+      symbols: symbols,
       symbol: symbol,
-      noNeedValue: noNeedValue,
-      door: door
+      value: '',
+      right: ''
     };
     return _this;
   }
@@ -86,55 +90,63 @@ function (_Component) {
   _createClass(ConditionSpellingBox, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      var _this$props = this.props,
-          onChange = _this$props.onChange,
-          doors = _this$props.doors,
-          first = _this$props.first;
       var _this$state = this.state,
-          field = _this$state.field,
-          door = _this$state.door,
-          left = _this$state.left,
-          right = _this$state.right;
-      var symbolValue = this.getConditionSymbolValue();
-      var condition;
-
-      if (symbolValue) {
-        var symbol = symbolValue.symbol,
-            value = symbolValue.value;
-        value = value || '';
-        left = left || '';
-        right = right || '';
-        condition = " ".concat(left).concat(field, " ").concat(symbol).concat(value).concat(right);
-        if (!first && door) condition = " ".concat(doors[door]).concat(condition);
-      }
+          symbols = _this$state.symbols,
+          symbol = _this$state.symbol;
+      var onChange = this.props.onChange;
+      if (!symbols[symbol]) return;
+      var condition = this.getCondition();
 
       if (this.lastCondition !== condition) {
         this.lastCondition = condition;
-        onChange(condition, _objectSpread({}, this.state));
+        var spelling = this.getSpelling();
+        onChange(condition, spelling, _objectSpread({}, this.state));
       }
     }
   }, {
-    key: "getConditionSymbolValue",
-    value: function getConditionSymbolValue() {
+    key: "getCondition",
+    value: function getCondition() {
+      var _this$props = this.props,
+          fields = _this$props.fields,
+          first = _this$props.first;
       var _this$state2 = this.state,
+          door = _this$state2.door,
+          field = _this$state2.field,
+          left = _this$state2.left,
+          right = _this$state2.right,
+          symbols = _this$state2.symbols,
           symbol = _this$state2.symbol,
-          value = _this$state2.value,
-          type = _this$state2.type;
-      var symbols = this.props.symbols;
-      var target = symbols[type][symbol];
-      if (!target) return;
-      var preprocess = target.preprocess,
-          noNeedValue = target.noNeedValue;
-      if (noNeedValue) return {
-        symbol: target.symbol
-      };
-      var result = preprocess ? preprocess(value) : value;
-      if (value === undefined) return;
-      result = type === 'text' ? " '".concat(result, "'") : " ".concat(result);
-      return {
-        value: result,
-        symbol: target.symbol
-      };
+          value = _this$state2.value;
+      var _fields$field = fields[field],
+          type = _fields$field.type,
+          fieldName = _fields$field.fieldName;
+      var noNeedValue = symbols[symbol].noNeedValue;
+      var preprocess = symbols[symbol].preprocess;
+      symbol = symbols[symbol].symbol;
+      value = preprocess ? preprocess(value) : value;
+      value = type === 'text' ? " '".concat(value, "'") : " ".concat(value);
+      if (noNeedValue) value = '';
+      var condition = " ".concat(left).concat(fieldName, " ").concat(symbol).concat(value).concat(right);
+      if (!first) condition = " ".concat(door).concat(condition);
+      return condition;
+    }
+  }, {
+    key: "getSpelling",
+    value: function getSpelling() {
+      var first = this.props.first;
+      var _this$state3 = this.state,
+          door = _this$state3.door,
+          field = _this$state3.field,
+          left = _this$state3.left,
+          right = _this$state3.right,
+          symbols = _this$state3.symbols,
+          symbol = _this$state3.symbol,
+          value = _this$state3.value;
+      var noNeedValue = symbols[symbol].noNeedValue;
+      value = noNeedValue ? '' : " ".concat(value);
+      var spelling = "".concat(left).concat(field, " ").concat(symbol).concat(value).concat(right);
+      if (!first) spelling = " ".concat(door, " ").concat(spelling);
+      return spelling;
     }
   }, {
     key: "setStateWithEvent",
@@ -148,7 +160,7 @@ function (_Component) {
           first = _this$props2.first,
           doors = _this$props2.doors,
           title = _this$props2.title;
-      return _react["default"].createElement(_ConditionSpellingBox2["default"], {
+      return _react["default"].createElement(_ConditionSpellingBox["default"], {
         className: "rcs-box-door",
         title: first ? title : null,
         doors: doors,
@@ -159,8 +171,8 @@ function (_Component) {
     key: "getRcsBoxParentheseLeft",
     value: function getRcsBoxParentheseLeft() {
       var placeholderLeft = this.props.placeholderLeft;
-      return _react["default"].createElement(_ConditionSpellingBox4["default"], {
-        left: true,
+      return _react["default"].createElement(_ConditionSpellingBox2["default"], {
+        reg: new RegExp(/\(/g),
         placeholder: placeholderLeft,
         className: "rcs-box-parenthese rcs-box-left",
         onChange: this.setStateWithEvent.bind(this, 'left')
@@ -170,7 +182,7 @@ function (_Component) {
     key: "getRcsBoxField",
     value: function getRcsBoxField() {
       var fields = this.props.fields;
-      return _react["default"].createElement(_ConditionSpellingBox["default"], {
+      return _react["default"].createElement(_ConditionSpellingBox3["default"], {
         className: "rcs-box-field",
         fields: fields,
         onChange: this.handleChangeField.bind(this)
@@ -182,16 +194,19 @@ function (_Component) {
       var fields = this.props.fields;
       var value = this.state.value;
       var field = e.target.value;
-      var nextType = fields[field].type || 'text';
+      var _fields$field2 = fields[field],
+          type = _fields$field2.type,
+          symbols = _fields$field2.symbols;
 
       var nextState = _objectSpread({}, this.state, {
-        field: field,
-        type: nextType
+        type: type,
+        symbols: symbols,
+        field: field
       });
 
-      if (nextType === 'number') {
+      if (type === 'number') {
         var parse = parseFloat(value).toString();
-        if (value !== parse) nextState.value = undefined;
+        if (value !== parse) nextState.value = '';
       }
 
       this.setState(nextState);
@@ -199,37 +214,27 @@ function (_Component) {
   }, {
     key: "getRcsBoxSymbol",
     value: function getRcsBoxSymbol() {
-      var symbols = this.props.symbols;
-      var type = this.state.type;
-      return _react["default"].createElement(_ConditionSpellingBox3["default"], {
+      var _this$state4 = this.state,
+          type = _this$state4.type,
+          symbols = _this$state4.symbols;
+      return _react["default"].createElement(_ConditionSpellingBox4["default"], {
         className: "rcs-box-symbol",
         type: type,
         symbols: symbols,
-        onChange: this.handleChangeSymbol.bind(this)
+        onChange: this.setStateWithEvent.bind(this, 'symbol')
       });
-    }
-  }, {
-    key: "handleChangeSymbol",
-    value: function handleChangeSymbol(e) {
-      var symbols = this.props.symbols;
-      var type = this.state.type;
-      var symbol = e.target.value;
-      var noNeedValue = symbols[type][symbol].noNeedValue;
-      this.setState(_objectSpread({}, this.state, {
-        symbol: symbol,
-        noNeedValue: noNeedValue
-      }));
     }
   }, {
     key: "getRcsBoxValue",
     value: function getRcsBoxValue() {
-      var _this$state3 = this.state,
-          type = _this$state3.type,
-          noNeedValue = _this$state3.noNeedValue;
+      var _this$state5 = this.state,
+          type = _this$state5.type,
+          symbols = _this$state5.symbols,
+          symbol = _this$state5.symbol;
       var placeholderInput = this.props.placeholderInput;
       return _react["default"].createElement("input", {
         className: "rcs-box-value",
-        disabled: noNeedValue,
+        disabled: symbols[symbol] && symbols[symbol].noNeedValue,
         type: type,
         placeholder: placeholderInput,
         onChange: this.setStateWithEvent.bind(this, 'value')
@@ -239,8 +244,8 @@ function (_Component) {
     key: "getRcsBoxParentheseRight",
     value: function getRcsBoxParentheseRight() {
       var placeholderRight = this.props.placeholderRight;
-      return _react["default"].createElement(_ConditionSpellingBox4["default"], {
-        right: true,
+      return _react["default"].createElement(_ConditionSpellingBox2["default"], {
+        reg: new RegExp(/\)/g),
         placeholder: placeholderRight,
         className: "rcs-box-parenthese rcs-box-right",
         onChange: this.setStateWithEvent.bind(this, 'right')
@@ -253,7 +258,7 @@ function (_Component) {
           onAdd = _this$props3.onAdd,
           onDelete = _this$props3.onDelete,
           noInsert = _this$props3.noInsert;
-      return _react["default"].createElement("div", {
+      return _react["default"].createElement("span", {
         className: "rcs-box-buttons"
       }, _react["default"].createElement("i", {
         className: "rcs_iconfont rcs-icon-delete",

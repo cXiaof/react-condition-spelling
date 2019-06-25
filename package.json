@@ -1,6 +1,6 @@
 {
   "name": "react-condition-spelling",
-  "version": "0.1.0-alpha.11",
+  "version": "0.2.0-alpha.1",
   "description": "One React Component for spelling field comparison, through one or more sets of input boxes, into the condition.",
   "main": "dist/index.js",
   "repository": "https://github.com/cXiaof/react-condition-spelling",
@@ -34,7 +34,7 @@
     "bs": "npm run format & npm run build-storybook",
     "build": "babel src -d dist & gulp",
     "b": "npm run format & npm run build",
-    "format": "prettier --loglevel silent --write {src,stories}/**/*.js",
+    "format": "prettier --loglevel silent --write {.storybook,src,stories}/**/*.js",
     "f": "npm run format",
     "prepublishOnly": "npm run format & npm run build-storybook & npm run build",
     "p": "npm run format & npm run build-storybook & npm run build"

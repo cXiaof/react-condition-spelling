@@ -1,72 +1,63 @@
 import React, { Component } from 'react'
 
-import ConditionSpellingBoxField from './ConditionSpelling.box.field'
 import ConditionSpellingBoxDoor from './ConditionSpelling.box.door'
-import ConditionSpellingBoxSymbol from './ConditionSpelling.box.symbol'
 import ConditionSpellingBoxParenthese from './ConditionSpelling.box.parenthese'
+import ConditionSpellingBoxField from './ConditionSpelling.box.field'
+import ConditionSpellingBoxSymbol from './ConditionSpelling.box.symbol'
 
 class ConditionSpellingBox extends Component {
     constructor(props) {
         super(props)
-        const { fields, symbols, doors } = props
-        const [field, { type }] = Object.entries(fields)[0]
-        const [symbol, { noNeedValue }] = Object.entries(symbols[type])[0]
-        const door = Object.keys(doors)[0]
+        const { fields, doors } = props
+        const [door] = Object.keys(doors)
+        const [field, { symbols }] = Object.entries(fields)[0]
+        const [symbol] = Object.keys(symbols)
         this.state = {
-            field,
-            type,
-            symbol,
-            noNeedValue,
             door,
             left: '',
+            field,
+            symbols,
+            symbol,
+            value: '',
             right: ''
         }
     }
 
     componentDidUpdate() {
+        let { symbols, symbol } = this.state
         const { onChange } = this.props
-        const symbolValue = this.getConditionSymbolValue()
-        let condition = ''
-        let text = ''
-        if (symbolValue) {
-            text = this.getSpelling(symbolValue.value === undefined)
-            condition = this.getCondition(symbolValue)
-        }
+        if (!symbols[symbol]) return
+        const condition = this.getCondition()
         if (this.lastCondition !== condition) {
             this.lastCondition = condition
-            onChange(condition, text, { ...this.state })
+            const spelling = this.getSpelling()
+            onChange(condition, spelling, { ...this.state })
         }
     }
 
-    getSpelling(noNeedValue) {
-        const { first } = this.props
-        let { field, door, left, right, symbol, value } = this.state
-        value = noNeedValue ? '' : value
-        let txt = `${left}${field} ${symbol}${value ? ' ' : ''}${value}${right}`
-        if (!first && door) txt = ` ${door} ${txt}`
-        return txt
-    }
-
-    getCondition({ symbol, value }) {
-        const { fields, doors, first } = this.props
-        let { field, door, left, right } = this.state
-        field = fields[field].fieldName
-        let condition = ` ${left}${field} ${symbol}${value || ''}${right}`
-        if (!first && door) condition = ` ${doors[door]}${condition}`
+    getCondition() {
+        const { fields, first } = this.props
+        let { door, field, left, right, symbols, symbol, value } = this.state
+        const { type, fieldName } = fields[field]
+        const noNeedValue = symbols[symbol].noNeedValue
+        const preprocess = symbols[symbol].preprocess
+        symbol = symbols[symbol].symbol
+        value = preprocess ? preprocess(value) : value
+        value = type === 'text' ? ` '${value}'` : ` ${value}`
+        if (noNeedValue) value = ''
+        let condition = ` ${left}${fieldName} ${symbol}${value}${right}`
+        if (!first) condition = ` ${door}${condition}`
         return condition
     }
 
-    getConditionSymbolValue() {
-        const { symbol, value, type } = this.state
-        const { symbols } = this.props
-        const target = symbols[type][symbol]
-        if (!target) return
-        const { preprocess, noNeedValue } = target
-        if (noNeedValue) return { symbol: target.symbol }
-        let result = preprocess ? preprocess(value) : value
-        if (value === undefined) return
-        result = type === 'text' ? ` '${result}'` : ` ${result}`
-        return { value: result, symbol: target.symbol }
+    getSpelling() {
+        const { first } = this.props
+        let { door, field, left, right, symbols, symbol, value } = this.state
+        const noNeedValue = symbols[symbol].noNeedValue
+        value = noNeedValue ? '' : ` ${value}`
+        let spelling = `${left}${field} ${symbol}${value}${right}`
+        if (!first) spelling = ` ${door} ${spelling}`
+        return spelling
     }
 
     setStateWithEvent(key, e) {
@@ -92,7 +83,7 @@ class ConditionSpellingBox extends Component {
         const { placeholderLeft } = this.props
         return (
             <ConditionSpellingBoxParenthese
-                left
+                reg={new RegExp(/\(/g)}
                 placeholder={placeholderLeft}
                 className='rcs-box-parenthese rcs-box-left'
                 onChange={this.setStateWithEvent.bind(this, 'left')}
@@ -113,49 +104,36 @@ class ConditionSpellingBox extends Component {
 
     handleChangeField(e) {
         const { fields } = this.props
-        let { value } = this.state
+        const { value } = this.state
         const field = e.target.value
-        const nextType = fields[field].type || 'text'
-        let nextState = { ...this.state, field, type: nextType }
-        if (nextType === 'number') {
+        const { type, symbols } = fields[field]
+        let nextState = { ...this.state, type, symbols, field }
+        if (type === 'number') {
             const parse = parseFloat(value).toString()
-            if (value !== parse) nextState.value = undefined
+            if (value !== parse) nextState.value = ''
         }
         this.setState(nextState)
     }
 
     getRcsBoxSymbol() {
-        const { symbols } = this.props
-        const { type } = this.state
+        const { type, symbols } = this.state
         return (
             <ConditionSpellingBoxSymbol
                 className='rcs-box-symbol'
                 type={type}
                 symbols={symbols}
-                onChange={this.handleChangeSymbol.bind(this)}
+                onChange={this.setStateWithEvent.bind(this, 'symbol')}
             />
         )
     }
 
-    handleChangeSymbol(e) {
-        const { symbols } = this.props
-        const { type } = this.state
-        const symbol = e.target.value
-        const { noNeedValue } = symbols[type][symbol]
-        this.setState({
-            ...this.state,
-            symbol,
-            noNeedValue
-        })
-    }
-
     getRcsBoxValue() {
-        const { type, noNeedValue } = this.state
+        const { type, symbols, symbol } = this.state
         const { placeholderInput } = this.props
         return (
             <input
                 className='rcs-box-value'
-                disabled={noNeedValue}
+                disabled={symbols[symbol] && symbols[symbol].noNeedValue}
                 type={type}
                 placeholder={placeholderInput}
                 onChange={this.setStateWithEvent.bind(this, 'value')}
@@ -167,7 +145,7 @@ class ConditionSpellingBox extends Component {
         const { placeholderRight } = this.props
         return (
             <ConditionSpellingBoxParenthese
-                right
+                reg={new RegExp(/\)/g)}
                 placeholder={placeholderRight}
                 className='rcs-box-parenthese rcs-box-right'
                 onChange={this.setStateWithEvent.bind(this, 'right')}
@@ -178,7 +156,7 @@ class ConditionSpellingBox extends Component {
     getRcsBoxButtons() {
         const { onAdd, onDelete, noInsert } = this.props
         return (
-            <div className='rcs-box-buttons'>
+            <span className='rcs-box-buttons'>
                 <i
                     className='rcs_iconfont rcs-icon-delete'
                     onClick={onDelete}
@@ -189,7 +167,7 @@ class ConditionSpellingBox extends Component {
                         onClick={onAdd}
                     />
                 )}
-            </div>
+            </span>
         )
     }
 

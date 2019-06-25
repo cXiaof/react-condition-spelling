@@ -1,25 +1,34 @@
 export const fields = [
     { dataType: 'varchar', fieldName: 'name', name: 'Name' },
-    { dataType: 'varchar', fieldName: 'qr_code', name: 'QR Code' },
-    { dataType: 'numeric', fieldName: 'height', name: 'Height' },
+    { dataType: 'char', fieldName: 'qr_code', name: 'QR Code' },
+    { dataType: 'decimal', fieldName: 'height', name: 'Height' },
     { dataType: 'varchar', fieldName: 'from', name: 'Come From' },
-    { dataType: 'int4', fieldName: 'status', name: 'Status' }
+    { dataType: 'int', fieldName: 'status', name: 'Status' }
 ]
 
 export const config = {
-    symbols: {
-        text: {
-            '=': { symbol: '=' },
-            like: { symbol: 'LIKE', preprocess: (value) => `%${value}%` },
+    text: {
+        dataTypes: ['varchar', 'char', 'text', 'blob'],
+        symbols: {
+            equal: { symbol: '=' },
+            like: {
+                symbol: 'LIKE',
+                preprocess: (value) => `%${value}%`
+            },
             'is null': { symbol: 'IS NULL', noNeedValue: true }
-        },
-        number: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
+        }
+    },
+    number: {
+        dataTypes: ['int', 'float', 'double', 'decimal'],
+        symbols: { '=': { symbol: '=' }, '≠': { symbol: '<>' } }
     }
 }
 
 export const configChZn = {
-    symbols: {
-        text: {
+    doors: { 且: 'AND', 或: 'OR' },
+    text: {
+        dataTypes: ['varchar', 'char', 'text', 'blob'],
+        symbols: {
             等于: { symbol: '=' },
             不等于: { symbol: '<>' },
             包含: {
@@ -34,14 +43,22 @@ export const configChZn = {
                 symbol: 'LIKE',
                 preprocess: (value) => `%${value}`
             },
-            为null: { symbol: 'IS NULL', noNeedValue: true }
-        },
-        number: { 等于: { symbol: '=' }, 不等于: { symbol: '<>' } }
+            为null: { symbol: 'IS NULL', noNeedValue: true },
+            不为null: { symbol: 'IS NOT NULL', noNeedValue: true }
+        }
     },
-    doors: { 且: 'AND', 或: 'OR' }
+    number: {
+        dataTypes: ['int', 'float', 'double', 'decimal'],
+        symbols: {
+            等于: { symbol: '=' },
+            不等于: { symbol: '<>' },
+            小于: { symbol: '<' },
+            小于等于: { symbol: '<=' },
+            大于: { symbol: '>' },
+            大于等于: { symbol: '>=' }
+        }
+    }
 }
 
-export const onChange = (result) => {
-    const { condition, spelling, inputs } = result
+export const onChange = ({ condition, spelling, inputs }) =>
     console.log(condition, spelling, inputs)
-}
