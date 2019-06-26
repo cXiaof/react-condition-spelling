@@ -11,41 +11,42 @@
             padding: 0 0.4rem;
             margin: 0 0.1rem;
             vertical-align: middle;
-            @mixin calcWidth($w, $m: 0) {
-                width: calc(#{$w}% - 0.1rem * #{$m});
+            @mixin calcWidth($w, $m: 2) {
+                width: calc(#{$w * 10}% - 0.1rem * #{$m});
             }
             &:nth-child(1) {
-                @include calcWidth(10, 1);
-                display: inline-block;
+                @include calcWidth(1);
                 padding: 0;
-                margin-left: 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
             &:nth-child(2) {
-                @include calcWidth(10, 2);
+                @include calcWidth(1);
             }
             &:nth-child(3) {
-                @include calcWidth(20, 2);
+                @include calcWidth(2);
             }
             &:nth-child(4) {
-                @include calcWidth(20, 2);
+                @include calcWidth(2);
             }
             &:nth-child(5) {
-                @include calcWidth(25, 2);
+                @include calcWidth(2);
             }
             &:nth-child(6) {
-                @include calcWidth(10, 2);
+                @include calcWidth(1);
             }
             &:nth-child(7) {
-                @include calcWidth(5);
+                @include calcWidth(1, 0);
                 margin: 0;
                 i {
                     font-size: 1rem;
                     margin: 0 2px;
                 }
             }
+        }
+        span {
+            display: inline-block;
         }
     }
 }
