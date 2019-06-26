@@ -19,14 +19,15 @@ class ConditionSpellingBox extends Component {
             symbols,
             symbol,
             value: '',
-            right: ''
+            right: '',
+            init: true
         }
     }
 
     componentDidUpdate() {
-        let { symbols, symbol } = this.state
+        let { symbols, symbol, init } = this.state
         const { onChange } = this.props
-        if (!symbols[symbol]) return
+        if (init || !symbols[symbol]) return
         const condition = this.getCondition()
         if (this.lastCondition !== condition) {
             this.lastCondition = condition
@@ -63,7 +64,8 @@ class ConditionSpellingBox extends Component {
     setStateWithEvent(key, e) {
         this.setState({
             ...this.state,
-            [key]: e.target.value
+            [key]: e.target.value,
+            init: false
         })
     }
 
@@ -107,7 +109,7 @@ class ConditionSpellingBox extends Component {
         const { value } = this.state
         const field = e.target.value
         const { type, symbols } = fields[field]
-        let nextState = { ...this.state, type, symbols, field }
+        let nextState = { ...this.state, symbols, field, init: false }
         if (type === 'number') {
             const parse = parseFloat(value).toString()
             if (value !== parse) nextState.value = ''
@@ -116,11 +118,12 @@ class ConditionSpellingBox extends Component {
     }
 
     getRcsBoxSymbol() {
-        const { type, symbols } = this.state
+        const { fields } = this.props
+        const { field, symbols } = this.state
         return (
             <ConditionSpellingBoxSymbol
                 className='rcs-box-symbol'
-                type={type}
+                type={fields[field].type}
                 symbols={symbols}
                 onChange={this.setStateWithEvent.bind(this, 'symbol')}
             />
@@ -128,13 +131,13 @@ class ConditionSpellingBox extends Component {
     }
 
     getRcsBoxValue() {
-        const { type, symbols, symbol } = this.state
-        const { placeholderInput } = this.props
+        const { fields, placeholderInput } = this.props
+        const { field, symbols, symbol } = this.state
         return (
             <input
                 className='rcs-box-value'
                 disabled={symbols[symbol] && symbols[symbol].noNeedValue}
-                type={type}
+                type={fields[field].type}
                 placeholder={placeholderInput}
                 onChange={this.setStateWithEvent.bind(this, 'value')}
             />

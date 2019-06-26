@@ -82,7 +82,8 @@ function (_Component) {
       symbols: symbols,
       symbol: symbol,
       value: '',
-      right: ''
+      right: '',
+      init: true
     };
     return _this;
   }
@@ -92,9 +93,10 @@ function (_Component) {
     value: function componentDidUpdate() {
       var _this$state = this.state,
           symbols = _this$state.symbols,
-          symbol = _this$state.symbol;
+          symbol = _this$state.symbol,
+          init = _this$state.init;
       var onChange = this.props.onChange;
-      if (!symbols[symbol]) return;
+      if (init || !symbols[symbol]) return;
       var condition = this.getCondition();
 
       if (this.lastCondition !== condition) {
@@ -151,7 +153,9 @@ function (_Component) {
   }, {
     key: "setStateWithEvent",
     value: function setStateWithEvent(key, e) {
-      this.setState(_objectSpread({}, this.state, _defineProperty({}, key, e.target.value)));
+      var _objectSpread2;
+
+      this.setState(_objectSpread({}, this.state, (_objectSpread2 = {}, _defineProperty(_objectSpread2, key, e.target.value), _defineProperty(_objectSpread2, "init", false), _objectSpread2)));
     }
   }, {
     key: "getRcsBoxDoor",
@@ -199,9 +203,9 @@ function (_Component) {
           symbols = _fields$field2.symbols;
 
       var nextState = _objectSpread({}, this.state, {
-        type: type,
         symbols: symbols,
-        field: field
+        field: field,
+        init: false
       });
 
       if (type === 'number') {
@@ -214,12 +218,13 @@ function (_Component) {
   }, {
     key: "getRcsBoxSymbol",
     value: function getRcsBoxSymbol() {
+      var fields = this.props.fields;
       var _this$state4 = this.state,
-          type = _this$state4.type,
+          field = _this$state4.field,
           symbols = _this$state4.symbols;
       return _react["default"].createElement(_ConditionSpellingBox4["default"], {
         className: "rcs-box-symbol",
-        type: type,
+        type: fields[field].type,
         symbols: symbols,
         onChange: this.setStateWithEvent.bind(this, 'symbol')
       });
@@ -227,15 +232,17 @@ function (_Component) {
   }, {
     key: "getRcsBoxValue",
     value: function getRcsBoxValue() {
+      var _this$props3 = this.props,
+          fields = _this$props3.fields,
+          placeholderInput = _this$props3.placeholderInput;
       var _this$state5 = this.state,
-          type = _this$state5.type,
+          field = _this$state5.field,
           symbols = _this$state5.symbols,
           symbol = _this$state5.symbol;
-      var placeholderInput = this.props.placeholderInput;
       return _react["default"].createElement("input", {
         className: "rcs-box-value",
         disabled: symbols[symbol] && symbols[symbol].noNeedValue,
-        type: type,
+        type: fields[field].type,
         placeholder: placeholderInput,
         onChange: this.setStateWithEvent.bind(this, 'value')
       });
@@ -254,10 +261,10 @@ function (_Component) {
   }, {
     key: "getRcsBoxButtons",
     value: function getRcsBoxButtons() {
-      var _this$props3 = this.props,
-          onAdd = _this$props3.onAdd,
-          onDelete = _this$props3.onDelete,
-          noInsert = _this$props3.noInsert;
+      var _this$props4 = this.props,
+          onAdd = _this$props4.onAdd,
+          onDelete = _this$props4.onDelete,
+          noInsert = _this$props4.noInsert;
       return _react["default"].createElement("span", {
         className: "rcs-box-buttons"
       }, _react["default"].createElement("i", {

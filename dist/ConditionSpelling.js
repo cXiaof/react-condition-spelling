@@ -158,9 +158,13 @@ function (_Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps, preState) {
+      var condition = this.state.condition;
       var onChange = this.props.onChange;
-      var result = this.getResultObj();
-      if (onChange && result.condition !== preState.condition) onChange(result);
+
+      if (onChange && condition !== preState.condition) {
+        var result = this.getResultObj();
+        onChange(result);
+      }
     }
   }, {
     key: "getResultObj",
