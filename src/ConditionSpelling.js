@@ -61,16 +61,27 @@ class ConditionSpelling extends Component {
         }, {})
     }
 
+    componentDidMount() {
+        const { onLoad } = this.props
+        const { condition, spelling } = this.getResultObj()
+        if (onLoad) onLoad(condition, spelling)
+    }
+
     componentDidUpdate(preProps, preState) {
         const { onChange } = this.props
-        const { condition, spelling, config, data } = this.state
-        if (onChange && condition !== preState.condition) {
-            const obj = {
-                condition: condition || this.alwaysTrue,
-                spelling: condition ? spelling : config.waiting,
-                inputs: data
-            }
-            onChange(obj)
+        const result = this.getResultObj()
+        if (onChange && result.condition !== preState.condition)
+            onChange(result)
+    }
+
+    getResultObj() {
+        let { condition, spelling, copy, data } = this.state
+        spelling = condition ? spelling : copy.waiting
+        condition = condition || copy.alwaysTrue
+        return {
+            condition,
+            spelling,
+            inputs: data
         }
     }
 

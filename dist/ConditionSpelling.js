@@ -145,23 +145,38 @@ function (_Component) {
       }, {});
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var onLoad = this.props.onLoad;
+
+      var _this$getResultObj = this.getResultObj(),
+          condition = _this$getResultObj.condition,
+          spelling = _this$getResultObj.spelling;
+
+      if (onLoad) onLoad(condition, spelling);
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps, preState) {
       var onChange = this.props.onChange;
+      var result = this.getResultObj();
+      if (onChange && result.condition !== preState.condition) onChange(result);
+    }
+  }, {
+    key: "getResultObj",
+    value: function getResultObj() {
       var _this$state = this.state,
           condition = _this$state.condition,
           spelling = _this$state.spelling,
-          config = _this$state.config,
+          copy = _this$state.copy,
           data = _this$state.data;
-
-      if (onChange && condition !== preState.condition) {
-        var obj = {
-          condition: condition || this.alwaysTrue,
-          spelling: condition ? spelling : config.waiting,
-          inputs: data
-        };
-        onChange(obj);
-      }
+      spelling = condition ? spelling : copy.waiting;
+      condition = condition || copy.alwaysTrue;
+      return {
+        condition: condition,
+        spelling: spelling,
+        inputs: data
+      };
     }
   }, {
     key: "getCondition",
