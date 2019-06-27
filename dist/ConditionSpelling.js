@@ -243,9 +243,11 @@ function (_Component) {
         data.push(this.getOneItemWithUid());
       }
       var condition = this.getCondition(data);
+      var spelling = this.getSpelling(data);
       this.setState(_objectSpread({}, this.state, {
         data: data,
-        condition: condition
+        condition: condition,
+        spelling: spelling
       }));
     }
   }, {

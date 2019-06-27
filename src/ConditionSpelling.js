@@ -139,10 +139,12 @@ class ConditionSpelling extends Component {
                 data.push(this.getOneItemWithUid())
             }
         const condition = this.getCondition(data)
+        const spelling = this.getSpelling(data)
         this.setState({
             ...this.state,
             data,
-            condition
+            condition,
+            spelling
         })
     }
 
