@@ -37,7 +37,7 @@ class ConditionSpellingBox extends Component {
     }
 
     getCondition() {
-        const { fields, first } = this.props
+        const { fields, doors, first } = this.props
         let { door, field, left, right, symbols, symbol, value } = this.state
         const { type, fieldName } = fields[field]
         const noNeedValue = symbols[symbol].noNeedValue
@@ -47,7 +47,7 @@ class ConditionSpellingBox extends Component {
         value = type === 'text' ? ` '${value}'` : ` ${value}`
         if (noNeedValue) value = ''
         let condition = ` ${left}${fieldName} ${symbol}${value}${right}`
-        if (!first) condition = ` ${door}${condition}`
+        if (!first) condition = ` ${doors[door]}${condition}`
         return condition
     }
 

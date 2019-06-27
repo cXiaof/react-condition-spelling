@@ -110,6 +110,7 @@ function (_Component) {
     value: function getCondition() {
       var _this$props = this.props,
           fields = _this$props.fields,
+          doors = _this$props.doors,
           first = _this$props.first;
       var _this$state2 = this.state,
           door = _this$state2.door,
@@ -129,7 +130,7 @@ function (_Component) {
       value = type === 'text' ? " '".concat(value, "'") : " ".concat(value);
       if (noNeedValue) value = '';
       var condition = " ".concat(left).concat(fieldName, " ").concat(symbol).concat(value).concat(right);
-      if (!first) condition = " ".concat(door).concat(condition);
+      if (!first) condition = " ".concat(doors[door]).concat(condition);
       return condition;
     }
   }, {
