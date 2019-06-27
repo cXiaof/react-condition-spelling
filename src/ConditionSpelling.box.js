@@ -134,13 +134,14 @@ class ConditionSpellingBox extends Component {
         const { fields, placeholderInput } = this.props
         const { field, symbols, symbol } = this.state
         return (
-            <input
-                className='rcs-box-value'
-                disabled={symbols[symbol] && symbols[symbol].noNeedValue}
-                type={fields[field].type}
-                placeholder={placeholderInput}
-                onChange={this.setStateWithEvent.bind(this, 'value')}
-            />
+            <div className='rcs-box-value'>
+                <input
+                    disabled={symbols[symbol] && symbols[symbol].noNeedValue}
+                    type={fields[field].type}
+                    placeholder={placeholderInput}
+                    onChange={this.setStateWithEvent.bind(this, 'value')}
+                />
+            </div>
         )
     }
 

@@ -76,12 +76,13 @@ function (_Component) {
           className = _this$props.className,
           placeholder = _this$props.placeholder;
       var value = this.state.value;
-      return _react["default"].createElement("input", {
+      return _react["default"].createElement("div", {
+        className: className
+      }, _react["default"].createElement("input", {
         value: value,
-        className: className,
         placeholder: placeholder,
         onChange: this.handleChange.bind(this)
-      });
+      }));
     }
   }]);
 

@@ -4,7 +4,13 @@ import { storiesOf } from '@storybook/react'
 import ConditionSpelling from '../src/index'
 
 import { TipTitle, TipFormat } from './utils.component'
-import { fields, config, configChZn, onChange } from './utils.mockData'
+import {
+    fields,
+    config,
+    configChZn,
+    copyChZn,
+    onChange
+} from './utils.mockData'
 
 storiesOf('react-condition-spelling', module)
     .add('Normal: has fields', () => {
@@ -70,6 +76,7 @@ storiesOf('react-condition-spelling', module)
             <Fragment>
                 <ConditionSpelling
                     config={configChZn}
+                    copy={copyChZn}
                     fields={fields}
                     onChange={onChange}
                 />
@@ -77,6 +84,7 @@ storiesOf('react-condition-spelling', module)
                     title={'mock config :'}
                     data={configChZn}
                 ></TipFormat>
+                <TipFormat title={'mock copy :'} data={copyChZn}></TipFormat>
                 <TipFormat title={'mock fields :'} data={fields}></TipFormat>
             </Fragment>
         )

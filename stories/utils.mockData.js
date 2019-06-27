@@ -60,5 +60,15 @@ export const configChZn = {
     }
 }
 
+export const copyChZn = {
+    title: '筛选条件：',
+    alwaysTrue: ' 1 = 1',
+    waiting: '未做筛选',
+    error: '没有字段！',
+    placeholderLeft: '仅可输入"("',
+    placeholderRight: '仅可输入")"',
+    placeholderInput: '请输入。。。'
+}
+
 export const onChange = ({ condition, spelling, inputs }) =>
     console.log(condition, spelling, inputs)

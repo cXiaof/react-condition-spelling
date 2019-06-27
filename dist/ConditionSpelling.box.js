@@ -240,13 +240,14 @@ function (_Component) {
           field = _this$state5.field,
           symbols = _this$state5.symbols,
           symbol = _this$state5.symbol;
-      return _react["default"].createElement("input", {
-        className: "rcs-box-value",
+      return _react["default"].createElement("div", {
+        className: "rcs-box-value"
+      }, _react["default"].createElement("input", {
         disabled: symbols[symbol] && symbols[symbol].noNeedValue,
         type: fields[field].type,
         placeholder: placeholderInput,
         onChange: this.setStateWithEvent.bind(this, 'value')
-      });
+      }));
     }
   }, {
     key: "getRcsBoxParentheseRight",

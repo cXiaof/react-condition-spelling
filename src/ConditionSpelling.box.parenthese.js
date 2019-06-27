@@ -29,12 +29,13 @@ class ConditionSpellingBoxParenthese extends Component {
         const { className, placeholder } = this.props
         const { value } = this.state
         return (
-            <input
-                value={value}
-                className={className}
-                placeholder={placeholder}
-                onChange={this.handleChange.bind(this)}
-            />
+            <div className={className}>
+                <input
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={this.handleChange.bind(this)}
+                />
+            </div>
         )
     }
 }

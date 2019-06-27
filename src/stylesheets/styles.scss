@@ -1,52 +1,51 @@
 @import './iconfont/iconfont.css';
 
 .react-condition-spelling {
+    $margin: 0.2rem;
+    $padding: 0.4rem;
+    $height: calc(1.2rem + 4px);
     .rcs-box {
-        margin-bottom: 0.2rem;
-        > * {
+        box-sizing: border-box;
+        * {
             box-sizing: border-box;
-            $height: calc(1.2rem + 4px);
             height: $height;
             line-height: $height;
-            padding: 0 0.4rem;
-            margin: 0 0.1rem;
-            vertical-align: middle;
-            @mixin calcWidth($w, $m: 2) {
-                width: calc(#{$w * 10}% - 0.1rem * #{$m});
+        }
+
+        display: grid;
+        grid-auto-rows: auto;
+        grid-column-gap: $margin;
+        grid-template-columns: 4fr 4fr 5fr 5fr 7fr 4fr 1fr;
+
+        margin-bottom: $margin;
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        input {
+            height: 100%;
+            width: 100%;
+            vertical-align: top;
+        }
+        input,
+        select {
+            padding: 0 $padding;
+        }
+        .rcs-box-buttons {
+            display: inline-flex;
+            justify-content: space-around;
+            i {
+                font-size: 1rem;
+                margin: 0 2px;
             }
-            &:nth-child(1) {
-                @include calcWidth(1);
-                padding: 0;
+        }
+        span {
+            &.rcs-box-door {
+                padding: 0 $padding;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
-            &:nth-child(2) {
-                @include calcWidth(1);
-            }
-            &:nth-child(3) {
-                @include calcWidth(2);
-            }
-            &:nth-child(4) {
-                @include calcWidth(2);
-            }
-            &:nth-child(5) {
-                @include calcWidth(2);
-            }
-            &:nth-child(6) {
-                @include calcWidth(1);
-            }
-            &:nth-child(7) {
-                @include calcWidth(1, 0);
-                margin: 0;
-                i {
-                    font-size: 1rem;
-                    margin: 0 2px;
-                }
-            }
-        }
-        span {
-            display: inline-block;
         }
     }
 }

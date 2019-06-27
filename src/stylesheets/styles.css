@@ -1,36 +1,34 @@
 @import url(./iconfont/iconfont.css);
 .react-condition-spelling .rcs-box {
+  box-sizing: border-box;
+  display: grid;
+  grid-auto-rows: auto;
+  grid-column-gap: 0.2rem;
+  grid-template-columns: 4fr 4fr 5fr 5fr 7fr 4fr 1fr;
   margin-bottom: 0.2rem; }
-  .react-condition-spelling .rcs-box > * {
+  .react-condition-spelling .rcs-box * {
     box-sizing: border-box;
     height: calc(1.2rem + 4px);
-    line-height: calc(1.2rem + 4px);
+    line-height: calc(1.2rem + 4px); }
+  .react-condition-spelling .rcs-box:last-child {
+    margin-bottom: 0; }
+  .react-condition-spelling .rcs-box input {
+    height: 100%;
+    width: 100%;
+    vertical-align: top; }
+  .react-condition-spelling .rcs-box input,
+  .react-condition-spelling .rcs-box select {
+    padding: 0 0.4rem; }
+  .react-condition-spelling .rcs-box .rcs-box-buttons {
+    display: inline-flex;
+    justify-content: space-around; }
+    .react-condition-spelling .rcs-box .rcs-box-buttons i {
+      font-size: 1rem;
+      margin: 0 2px; }
+  .react-condition-spelling .rcs-box span.rcs-box-door {
     padding: 0 0.4rem;
-    margin: 0 0.1rem;
-    vertical-align: middle; }
-    .react-condition-spelling .rcs-box > *:nth-child(1) {
-      width: calc(10% - 0.1rem * 2);
-      padding: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; }
-    .react-condition-spelling .rcs-box > *:nth-child(2) {
-      width: calc(10% - 0.1rem * 2); }
-    .react-condition-spelling .rcs-box > *:nth-child(3) {
-      width: calc(20% - 0.1rem * 2); }
-    .react-condition-spelling .rcs-box > *:nth-child(4) {
-      width: calc(20% - 0.1rem * 2); }
-    .react-condition-spelling .rcs-box > *:nth-child(5) {
-      width: calc(20% - 0.1rem * 2); }
-    .react-condition-spelling .rcs-box > *:nth-child(6) {
-      width: calc(10% - 0.1rem * 2); }
-    .react-condition-spelling .rcs-box > *:nth-child(7) {
-      width: calc(10% - 0.1rem * 0);
-      margin: 0; }
-      .react-condition-spelling .rcs-box > *:nth-child(7) i {
-        font-size: 1rem;
-        margin: 0 2px; }
-  .react-condition-spelling .rcs-box span {
-    display: inline-block; }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
 
 /*# sourceMappingURL=styles.css.map */
