@@ -147,13 +147,16 @@ function (_Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var onLoad = this.props.onLoad;
+      var _this$props = this.props,
+          onLoad = _this$props.onLoad,
+          bindClearAll = _this$props.bindClearAll;
 
       var _this$getResultObj = this.getResultObj(),
           condition = _this$getResultObj.condition,
           spelling = _this$getResultObj.spelling;
 
       if (onLoad) onLoad(condition, spelling);
+      if (bindClearAll) bindClearAll(this.clearAll.bind(this));
     }
   }, {
     key: "componentDidUpdate",
@@ -237,9 +240,10 @@ function (_Component) {
 
       var data = _toConsumableArray(this.state.data);
 
+      if (index === undefined) data = [];
       data.splice(index, 1);
       if (data.length === 0) data.push(this.getOneItemWithUid());
-      if (showAll) for (var _index = 0; _index < max - data.length; _index++) {
+      if (showAll) for (var i = 0; i < max - data.length; i++) {
         data.push(this.getOneItemWithUid());
       }
       var condition = this.getCondition(data);
@@ -249,6 +253,11 @@ function (_Component) {
         condition: condition,
         spelling: spelling
       }));
+    }
+  }, {
+    key: "clearAll",
+    value: function clearAll() {
+      this.handleDelete();
     }
   }, {
     key: "getRcsBoxes",

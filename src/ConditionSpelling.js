@@ -62,9 +62,10 @@ class ConditionSpelling extends Component {
     }
 
     componentDidMount() {
-        const { onLoad } = this.props
+        const { onLoad, bindClearAll } = this.props
         const { condition, spelling } = this.getResultObj()
         if (onLoad) onLoad(condition, spelling)
+        if (bindClearAll) bindClearAll(this.clearAll.bind(this))
     }
 
     componentDidUpdate(preProps, preState) {
@@ -132,10 +133,11 @@ class ConditionSpelling extends Component {
     handleDelete(index) {
         const { max, showAll } = this.state
         let data = [...this.state.data]
+        if (index === undefined) data = []
         data.splice(index, 1)
         if (data.length === 0) data.push(this.getOneItemWithUid())
         if (showAll)
-            for (let index = 0; index < max - data.length; index++) {
+            for (let i = 0; i < max - data.length; i++) {
                 data.push(this.getOneItemWithUid())
             }
         const condition = this.getCondition(data)
@@ -146,6 +148,10 @@ class ConditionSpelling extends Component {
             condition,
             spelling
         })
+    }
+
+    clearAll() {
+        this.handleDelete()
     }
 
     getRcsBoxes() {

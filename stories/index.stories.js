@@ -89,3 +89,17 @@ storiesOf('react-condition-spelling', module)
             </Fragment>
         )
     })
+    .add('Clear All', () => {
+        let clearAll = () => console.log('never bind')
+        return (
+            <Fragment>
+                <ConditionSpelling
+                    fields={fields}
+                    onChange={onChange}
+                    bindClearAll={(clear) => (clearAll = clear)}
+                />
+                <button onClick={() => clearAll()}>Clear All</button>
+                <TipFormat title={'mock fields :'} data={fields}></TipFormat>
+            </Fragment>
+        )
+    })

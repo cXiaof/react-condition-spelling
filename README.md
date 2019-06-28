@@ -146,3 +146,7 @@ yarn bs
     - spelling **String**  
         spelling text
         拼写出的文字
+
+-   bindClearAll **Funtion**  
+    get the clearAll function to bind your clear function, like `bindClearAll={(clear) => (this.clearAll = clear)}` and use `this.clearAll()` to clear
+    获取clearAll方法，可以绑定到你自己的方法上，如`bindClearAll={(clear) => (this.clearAll = clear)}`绑定到你的this.clearAll方法上做清空操作
